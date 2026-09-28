@@ -2,7 +2,7 @@ class Task {
   #title;
   #description;
   #dueDate;
-  #priority;
+  #priority = 4;
   #category = null;
   #complete = false;
 
