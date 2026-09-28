@@ -3,15 +3,15 @@ class Task {
   #description;
   #dueDate;
   #priority;
-  #project = null;
+  #category = null;
   #complete = false;
 
-  constructor(title, description, dueDate, priority, project) {
+  constructor(title, description, dueDate, priority, category) {
     this.#title = title;
     this.#description = description;
     this.#dueDate = dueDate;
     this.#priority = priority;
-    this.#project = project;
+    this.#category = category;
   }
 
   get title() {
@@ -30,8 +30,8 @@ class Task {
     return this.#priority;
   }
 
-  get project() {
-    return this.#project;
+  get category() {
+    return this.#category;
   }
 
   get complete() {
@@ -50,8 +50,8 @@ class Task {
     this.#dueDate = newDueDate;
   }
 
-  set project(newProject) {
-    this.#project = newProject;
+  set category(newProject) {
+    this.#category = newProject;
   }
 
   set complete(status) {
