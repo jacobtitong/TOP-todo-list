@@ -1,6 +1,6 @@
 class Category {
   #name;
-  #id = crypto.randomUUID;
+  #id = crypto.randomUUID();
 
   constructor(name) {
     this.#name = name;

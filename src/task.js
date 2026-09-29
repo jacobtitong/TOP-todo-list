@@ -1,3 +1,5 @@
+import { Tasks } from "./library.js";
+
 class Task {
   #title;
   #description;
@@ -5,8 +7,10 @@ class Task {
   #priority = 4;
   #category = null;
   #complete = false;
+  #id = crypto.randomUUID();
+  #checklist = new Tasks();
 
-  constructor(title, description, dueDate, priority, category) {
+  constructor({ title, description, dueDate, priority, category }) {
     this.#title = title;
     this.#description = description;
     this.#dueDate = dueDate;
@@ -38,6 +42,14 @@ class Task {
     return this.#complete;
   }
 
+  get id() {
+    return this.#id;
+  }
+
+  get checklist() {
+    return this.#checklist;
+  }
+
   set title(newTitle) {
     this.#title = newTitle;
   }
@@ -50,11 +62,21 @@ class Task {
     this.#dueDate = newDueDate;
   }
 
+  set priority(newPriority) {
+    this.#priority = newPriority;
+  }
+
   set category(newProject) {
     this.#category = newProject;
   }
 
-  set complete(status) {
-    this.#complete = status;
+  toggle() {
+    if (this.#complete) {
+      this.#complete = false;
+      return;
+    }
+    this.#complete = true;
   }
 }
+
+export { Task };
