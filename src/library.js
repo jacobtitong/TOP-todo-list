@@ -36,4 +36,4 @@ class Categories extends Library {}
 
 Object.assign(Categories.prototype, canAddItems, canRemoveItems);
 
-export { Tasks };
+export { Tasks, Categories };
