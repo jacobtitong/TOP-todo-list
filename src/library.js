@@ -22,7 +22,13 @@ const canRemoveItems = {
   },
 };
 
-class Tasks extends Library {}
+class Tasks extends Library {
+  #id = crypto.randomUUID();
+
+  get id() {
+    return this.#id;
+  }
+}
 
 Object.assign(Tasks.prototype, canAddItems, canRemoveItems);
 
@@ -30,5 +36,4 @@ class Categories extends Library {}
 
 Object.assign(Categories.prototype, canAddItems, canRemoveItems);
 
-const globalScopeTasks = new Tasks();
-export { Tasks, globalScopeTasks };
+export { Tasks };

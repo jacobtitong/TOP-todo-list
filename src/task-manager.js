@@ -1,12 +1,16 @@
-import { Task, globalScopeTasks } from "./task.js";
+import { Task } from "./task.js";
 
 const taskManager = (() => {
   const createTask = (taskDetails) => {
     return new Task(taskDetails);
   };
 
-  const deleteTask = (task) => {
-    globalScopeTasks.removeItem(task);
+  const deleteTask = (library, task) => {
+    library.removeItem(task);
+  };
+
+  const insertTask = (library, task) => {
+    library.addItem(task);
   };
 
   const toggleTask = (task) => {
@@ -40,5 +44,5 @@ const taskManager = (() => {
     }
   };
 
-  return { createTask, deleteTask, toggleTask, editTask };
+  return { createTask, deleteTask, insertTask, toggleTask, editTask };
 })();
