@@ -11,23 +11,21 @@ class Library {
 }
 
 const canAddItems = {
-  addItem(task) {
-    this.library.push(task);
+  addItem(obj) {
+    this.library.push(obj);
   },
 };
 
 const canRemoveItems = {
-  removeItem(task) {
-    this.library = this.library.filter((item) => item !== task);
+  removeItem(obj) {
+    this.library = this.library.filter((item) => item !== obj);
   },
 };
 
 class Tasks extends Library {}
 
-Object.assign(Tasks.prototype, canAddItems);
-Object.assign(Tasks.prototype, canRemoveItems);
+Object.assign(Tasks.prototype, canAddItems, canRemoveItems);
 
 class Categories extends Library {}
 
-Object.assign(Tasks.prototype, canAddItems);
-Object.assign(Tasks.prototype, canRemoveItems);
+Object.assign(Categories.prototype, canAddItems, canRemoveItems);
