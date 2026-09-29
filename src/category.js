@@ -20,3 +20,5 @@ class Category {
     this.#name = newName;
   }
 }
+
+export default Category;

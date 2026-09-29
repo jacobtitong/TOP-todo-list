@@ -1,17 +1,20 @@
-import { Category } from "./category.js";
+import { default as Category } from "./category.js";
+import { globalScopeCategories } from "./library.js";
 
-const CategoriesManager = (() => {
+const categoryManager = (() => {
   const createCategory = (categoryDetails) => {
     return new Category(categoryDetails);
   };
 
-  const deleteCategory = (library, category) => {
-    library.removeItem(category);
+  const deleteCategory = (category) => {
+    globalScopeCategories.removeItem(category);
   };
 
-  const insertCategory = (library, category) => {
-    library.addItem(category);
+  const insertCategory = (category) => {
+    globalScopeCategories.addItem(category);
   };
 
   return { createCategory, deleteCategory, insertCategory };
 })();
+
+export default categoryManager;

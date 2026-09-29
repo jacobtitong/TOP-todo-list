@@ -36,4 +36,7 @@ class Categories extends Library {}
 
 Object.assign(Categories.prototype, canAddItems, canRemoveItems);
 
-export { Tasks, Categories };
+const globalScopeCategories = new Categories();
+const globalScopeTasks = new Tasks();
+
+export { Tasks, globalScopeCategories, globalScopeTasks };
