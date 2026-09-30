@@ -11,7 +11,7 @@ body {
 div.top {
   grid-area: top;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 16px 24px;
   align-items: center;
 
@@ -22,6 +22,7 @@ div.top {
     align-items: center;
     color: var(--secondary-txt);
     font-size: 1rem;
+    margin-left: auto;
   }
 
   .side-bar-icon {
@@ -29,10 +30,6 @@ div.top {
     width: 20px;
     height: 20px;
   }
-}
-
-nav.side-bar {
-  grid-area: sidebar;
 }
 
 main.task-list {

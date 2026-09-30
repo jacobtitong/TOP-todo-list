@@ -1,11 +1,8 @@
+import { default as createDOM } from "./createDOM.js";
 import sortFilterSVG from "./assets/icons/sort-filter.svg";
 import sideBarSVG from "./assets/icons/side-bar.svg";
 import calendarSVG from "./assets/icons/calendar.svg";
 import hashSVG from "./assets/icons/hash.svg";
-
-function createDOM(string) {
-  return new DOMParser().parseFromString(string, "text/xml").firstChild;
-}
 
 // Sort Filter SVG
 const sortFilterContainer = document.querySelector(".sort-filter");
