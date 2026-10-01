@@ -1,25 +1,24 @@
-export default function createDOM(DOMDetails) {
-  if (DOMDetails.hasOwnProperty("element")) {
-    const { element } = DOMDetails;
-    const DOMElement = document.createElement(element);
+import { default as turnToDOM } from "./turnToDOM.js";
 
-    breakMe: if (DOMDetails.hasOwnProperty("classList")) {
-      const { classList } = DOMDetails;
-      if (typeof classList !== typeof []) {
-        DOMElement.classList.add(classList);
-        break breakMe;
-      }
-      classList.forEach((name) => {
-        DOMElement.classList.add(name);
-      });
-    }
-
-    if (DOMDetails.hasOwnProperty("textContent")) {
-      const { textContent } = DOMDetails;
-      DOMElement.textContent = textContent;
-    }
-
-    return DOMElement;
+export default function createDOM(type, attributes, ...children) {
+  let element;
+  if (typeof type === "string") {
+    element = turnToDOM(type);
+  } else {
+    element = document.createElement(type);
   }
-  return;
+
+  for (key in attributes) {
+    element.setAttribute(key, attributes[key]);
+  }
+
+  children.forEach((child) => {
+    if (typeof child === "string") {
+      element.appendChild(document.createTextNode(child));
+    } else {
+      element.appendChild(child);
+    }
+  });
+
+  return element;
 }
