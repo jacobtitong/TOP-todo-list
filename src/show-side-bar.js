@@ -1,7 +1,7 @@
 import { default as renderTop } from "./top.js";
 import { default as renderSideBar } from "./side-bar.js";
 
-const topElements = renderTop();
+const topElements = renderTop;
 const sideBarSVG1 = topElements.DOMSideBarSVG;
 const topContainer1 = topElements.topContainer;
 

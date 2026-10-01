@@ -27,4 +27,4 @@ const renderTop = () => {
   return { topContainer, DOMSideBarSVG };
 };
 
-export default renderTop;
+export default renderTop();
