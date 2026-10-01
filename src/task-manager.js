@@ -23,6 +23,7 @@ const taskManager = (() => {
   };
 
   const editTask = (taskDetails, task) => {
+
     if (taskDetails.hasOwnProperty("title")) {
       const { title } = taskDetails;
       task.title = title;
