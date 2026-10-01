@@ -8,57 +8,6 @@ import sideBarSVG from "./assets/icons/side-bar.svg";
 import hashSVG from "./assets/icons/hash.svg";
 
 const sideBarContainer = document.querySelector(".side-bar");
-/* 
-    <div class="top">
-        <div class="profile">
-          <span class="profile-name">username</span>
-        </div>
-      </div>
-      <div class="add-task">
-        <button>
-          <span>Add task</span>
-        </button>
-      </div>
-      <div class="project-tab">
-        <div>
-          <span class="inbox"><span>Inbox</span></span>
-          <span class="count">22</span>
-        </div>
-      </div>
-      <hr />
-      <div class="projects">
-        <div class="top">
-          <span>My Projects</span>
-          <div class="actions"></div>
-        </div>
-        <div class="projects-list">
-          <div class="project-tab">
-            <div>
-              <span class="project-name"><span>Personal</span></span>
-              <span class="count">5</span>
-            </div>
-          </div>
-          <div class="project-tab">
-            <div>
-              <span class="project-name"><span>Personal</span></span>
-              <span class="count">5</span>
-            </div>
-          </div>
-          <div class="project-tab">
-            <div>
-              <span class="project-name"><span>Personal</span></span>
-              <span class="count">5</span>
-            </div>
-          </div>
-          <div class="project-tab">
-            <div>
-              <span class="project-name"><span>Personal</span></span>
-              <span class="count">5</span>
-            </div>
-          </div>
-        </div>
-      </div>
-*/
 
 // CREATING SIDE BAR ELEMENTS:
 
@@ -87,9 +36,13 @@ const projectTabDiv = createDOM({ element: "div" });
 
 const inbox = createDOM({ element: "span", classList: "inbox" });
 
-const inboxSpan = createDOM({ element: "span" });
+const inboxSpan = createDOM({ element: "span", textContent: "Inbox" });
 
-const count = createDOM({ element: "span", classList: "count" });
+const count = createDOM({
+  element: "span",
+  classList: "count",
+  textContent: "22",
+});
 
 const hr = createDOM({ element: "hr" });
 
@@ -97,7 +50,7 @@ const projects = createDOM({ element: "div", classList: "projects" });
 
 const top2 = createDOM({ element: "div", classList: "top" });
 
-const top2Span = createDOM({ element: "span" });
+const top2Span = createDOM({ element: "span", textContent: "My Projects" });
 
 const actions = createDOM({ element: "div", classList: "actions" });
 
@@ -112,9 +65,16 @@ for (let i = 0; i < 4; i++) {
   const projectTabDiv = createDOM({ element: "div" });
 
   const projectName = createDOM({ element: "span", classList: "project-name" });
-  const projectNameSpan = createDOM({ element: "span" });
+  const projectNameSpan = createDOM({
+    element: "span",
+    textContent: "Personal",
+  });
 
-  const count = createDOM({ element: "span", classList: "count" });
+  const count = createDOM({
+    element: "span",
+    classList: "count",
+    textContent: "5",
+  });
 
   item.push(projectTab);
   item.push(projectTabDiv);
@@ -148,9 +108,16 @@ top2.appendChild(top2Span);
 top2.appendChild(actions);
 projects.appendChild(projectsList);
 
+projectItem.forEach((project) => {
+  projectsList.appendChild(project[0]);
+  project[0].appendChild(project[1]);
+  project[1].appendChild(project[2]);
+  project[2].appendChild(project[3]);
+  project[1].appendChild(project[4]);
+});
+
 /* SVG's */
 
-/*
 // Avatar Wrapper SVG
 const profileContainer = document.querySelector(".profile");
 const DOMAvatarWrapperSVG = turnToDOM(avatarWrapperSVG);
@@ -172,11 +139,14 @@ DOMSideBarSVG1.classList.add("side-bar-icon");
 topContainer.appendChild(DOMSideBarSVG1);
 
 // Plus Circle SVG - Add Task Button
-const addTaskButton = document.querySelector(".add-task button");
+const addTaskButtonContainer = document.querySelector(".add-task button");
 const DOMPlusCircleSVG = turnToDOM(plusCircleSVG);
 
 DOMPlusCircleSVG.classList.add("plus-circle-icon");
-addTaskButton.insertBefore(DOMPlusCircleSVG, addTaskButton.firstChild);
+addTaskButtonContainer.insertBefore(
+  DOMPlusCircleSVG,
+  addTaskButtonContainer.firstChild,
+);
 
 // Inbox SVG
 const inboxContainer = document.querySelector(".inbox");
@@ -185,11 +155,13 @@ const DOMInboxSVG = turnToDOM(inboxSVG);
 inboxContainer.insertBefore(DOMInboxSVG, inboxContainer.firstChild);
 
 // Plus Circle SVG - Projects Tab
-const projectsTopContainer = document.querySelector(".side-bar .projects .top");
+const projectsTopActionsContainer = document.querySelector(
+  ".side-bar .projects .top .actions",
+);
 const DOMPlusCircleSVG2 = turnToDOM(plusCircleSVG);
 
 DOMPlusCircleSVG2.classList.add("plus-circle-icon");
-projectsTopContainer.appendChild(DOMPlusCircleSVG2);
+projectsTopActionsContainer.appendChild(DOMPlusCircleSVG2);
 
 // Hash SVG
 const projectContainer = document.querySelectorAll(
@@ -202,4 +174,3 @@ projectContainer.forEach((container) => {
   DOMHashSVG.classList.add("hash-icon");
   container.insertBefore(DOMHashSVG, container.firstChild);
 });
-*/

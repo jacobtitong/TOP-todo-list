@@ -5,9 +5,10 @@ nav.side-bar {
   flex-direction: column;
   gap: 20px;
   padding: 20px 0;
-  min-width: 250px;
+  width: max-content;
 
   .top {
+    min-width: 250px;
     display: flex;
     justify-content: space-between;
     padding: 0 16px;
@@ -84,9 +85,13 @@ nav.side-bar {
     display: flex;
     align-items: center;
 
-    .plus-circle-icon path {
-      stroke: var(--secondary-txt);
-      cursor: pointer;
+    .actions {
+      .plus-circle-icon {
+        cursor: pointer;
+        path {
+          stroke: var(--secondary-txt);
+        }
+      }
     }
   }
 
