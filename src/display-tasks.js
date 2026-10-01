@@ -4,20 +4,21 @@ import { globalScopeTasks } from "./library.js";
 import calendarSVG from "./assets/icons/calendar.svg";
 import hashSVG from "./assets/icons/hash.svg";
 
-const taskList = mainContentElements.taskList;
+const DOMTaskList = mainContentElements.taskList;
+const TaskList = globalScopeTasks.library;
 
 // CREATING ELEMENTS
-function createTask() {
-  const checkbox = createDOM("input", { id: "checkbox1", type: "checkbox" });
+TaskList.forEach((task) => {
+  const checkbox = createDOM("input", { id: task.id, type: "checkbox" });
   const checkboxLabel = createDOM(
     "label",
     {
       class: "checkbox-label",
-      for: "checkbox1",
+      for: task.id,
     },
     checkbox,
   );
-  const projectLabelSpan = createDOM("span", {}, "Inbox");
+  const projectLabelSpan = createDOM("span", {}, task.category);
   const DOMHashSVG = createDOM(hashSVG, { class: "hash-icon" });
   const projectLabel = createDOM(
     "div",
@@ -32,17 +33,17 @@ function createTask() {
     {
       class: "title",
     },
-    "Title",
+    task.title,
   );
   const description = createDOM(
     "p",
     {
       class: "description",
     },
-    "Description",
+    task.description,
   );
   const DOMCalendarSVG = createDOM(calendarSVG, { class: "due-date-icon" });
-  const dueDateSpan = createDOM("span", {}, "Today");
+  const dueDateSpan = createDOM("span", {}, task.dueDate);
 
   const dueDate = createDOM(
     "div",
@@ -57,7 +58,7 @@ function createTask() {
     description,
     dueDate,
   );
-  const task = createDOM(
+  const DOMTask = createDOM(
     "div",
     { class: "task" },
     checkboxLabel,
@@ -66,9 +67,5 @@ function createTask() {
   );
 
   // DISPLAYING ELEMENTS (appending only direct children)
-  taskList.appendChild(task);
-}
-
-createTask();
-createTask();
-createTask();
+  DOMTaskList.appendChild(DOMTask);
+});
