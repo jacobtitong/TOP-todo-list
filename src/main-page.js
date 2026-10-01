@@ -1,35 +1,22 @@
+import "./main-page.css";
 import { default as turnToDOM } from "./turnToDOM.js";
-import sortFilterSVG from "./assets/icons/sort-filter.svg";
-import sideBarSVG from "./assets/icons/side-bar.svg";
 import calendarSVG from "./assets/icons/calendar.svg";
 import hashSVG from "./assets/icons/hash.svg";
 
-// Sort Filter SVG
-const sortFilterContainer = document.querySelector(".sort-filter");
-const DOMSortFilterSVG = turnToDOM(sortFilterSVG);
+const renderMainPage = () => {
+  // Due Date SVG
+  const dueDateContainer = document.querySelector(".task-details .dueDate");
+  const DOMCalendarSVG = turnToDOM(calendarSVG);
 
-sortFilterContainer.insertBefore(
-  DOMSortFilterSVG,
-  sortFilterContainer.firstChild,
-);
+  DOMCalendarSVG.classList.add("due-date-icon");
+  dueDateContainer.insertBefore(DOMCalendarSVG, dueDateContainer.firstChild);
 
-// Side Bar SVG
-const topContainer = document.querySelector(".top");
-const DOMSideBarSVG = turnToDOM(sideBarSVG);
+  //  Hash SVG
+  const projectLabelContainer = document.querySelector(".project-label");
+  const DOMHashSVG = turnToDOM(hashSVG);
 
-DOMSideBarSVG.classList.add("side-bar-icon");
-topContainer.insertBefore(DOMSideBarSVG, topContainer.firstChild);
+  DOMHashSVG.classList.add("hash-icon");
+  projectLabelContainer.appendChild(DOMHashSVG);
+};
 
-// Due Date SVG
-const dueDateContainer = document.querySelector(".task-details .dueDate");
-const DOMCalendarSVG = turnToDOM(calendarSVG);
-
-DOMCalendarSVG.classList.add("due-date-icon");
-dueDateContainer.insertBefore(DOMCalendarSVG, dueDateContainer.firstChild);
-
-//  Hash SVG
-const projectLabelContainer = document.querySelector(".project-label");
-const DOMHashSVG = turnToDOM(hashSVG);
-
-DOMHashSVG.classList.add("hash-icon");
-projectLabelContainer.appendChild(DOMHashSVG);
+export default renderMainPage;

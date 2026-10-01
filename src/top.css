@@ -1,0 +1,23 @@
+div.top {
+  grid-area: top;
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 24px;
+  align-items: center;
+
+  .sort-filter {
+    cursor: pointer;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: var(--secondary-txt);
+    font-size: 1rem;
+    margin-left: auto;
+  }
+
+  .side-bar-icon {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+  }
+}
