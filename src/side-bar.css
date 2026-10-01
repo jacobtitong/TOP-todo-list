@@ -86,6 +86,7 @@ nav.side-bar {
 
     .plus-circle-icon path {
       stroke: var(--secondary-txt);
+      cursor: pointer;
     }
   }
 
