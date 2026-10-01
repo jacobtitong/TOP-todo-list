@@ -1,5 +1,4 @@
 import "./side-bar.css";
-import { default as turnToDOM } from "./turnToDOM.js";
 import { default as createDOM } from "./createDOM.js";
 import inboxSVG from "./assets/icons/inbox.svg";
 import avatarWrapperSVG from "./assets/icons/avatar-wrapper.svg";
@@ -10,77 +9,53 @@ import hashSVG from "./assets/icons/hash.svg";
 
 const renderSideBar = () => {
   const sideBarContainer = document.querySelector(".side-bar");
-  // CREATING SIDE BAR ELEMENTS:
-  const top1 = createDOM({ element: "div", classList: "top" });
 
-  const profile = createDOM({ element: "div", classList: "profile" });
+  // CREATING SIDE BAR ELEMENTS (Built bottom-up to pass children):
+  // Profile Section
+  const profileName = createDOM("span", { class: "profile-name" }, "username");
+  const profile = createDOM("div", { class: "profile" }, profileName);
+  const top1 = createDOM("div", { class: "top" }, profile);
 
-  const profileName = createDOM({
-    element: "span",
-    classList: "profile-name",
-    textContent: "username",
-  });
+  // Add Task Section
+  const addTaskButtonSpan = createDOM("span", {}, "Add Task");
+  const addTaskButton = createDOM("button", {}, addTaskButtonSpan);
+  const addTask = createDOM("div", { class: "add-task" }, addTaskButton);
 
-  const addTask = createDOM({ element: "div", classList: "add-task" });
+  // Project Tab (Inbox) Section
+  const inboxSpan = createDOM("span", {}, "Inbox");
+  const inbox = createDOM("span", { class: "inbox" }, inboxSpan);
+  const count = createDOM("span", { class: "count" }, "22");
+  const projectTabDiv = createDOM("div", {}, inbox, count);
+  const projectTab = createDOM("div", { class: "project-tab" }, projectTabDiv);
 
-  const addTaskButton = createDOM({ element: "button" });
+  // Divider
+  const hr = createDOM("hr", {});
 
-  const addTaskButtonSpan = createDOM({
-    element: "span",
-    textContent: "Add Task",
-  });
-
-  const projectTab = createDOM({ element: "div", classList: "project-tab" });
-
-  const projectTabDiv = createDOM({ element: "div" });
-
-  const inbox = createDOM({ element: "span", classList: "inbox" });
-
-  const inboxSpan = createDOM({ element: "span", textContent: "Inbox" });
-
-  const count = createDOM({
-    element: "span",
-    classList: "count",
-    textContent: "22",
-  });
-
-  const hr = createDOM({ element: "hr" });
-
-  const projects = createDOM({ element: "div", classList: "projects" });
-
-  const top2 = createDOM({ element: "div", classList: "top" });
-
-  const top2Span = createDOM({ element: "span", textContent: "My Projects" });
-
-  const actions = createDOM({ element: "div", classList: "actions" });
-
-  const projectsList = createDOM({
-    element: "div",
-    classList: "projects-list",
-  });
+  // Projects Section
+  const top2Span = createDOM("span", {}, "My Projects");
+  const actions = createDOM("div", { class: "actions" });
+  const top2 = createDOM("div", { class: "top" }, top2Span, actions);
 
   const projectItem = [];
 
   for (let i = 0; i < 4; i++) {
     const item = [];
 
-    const projectTab = createDOM({ element: "div", classList: "project-tab" });
-    const projectTabDiv = createDOM({ element: "div" });
+    const projectNameSpan = createDOM("span", {}, "Personal");
+    const projectName = createDOM(
+      "span",
+      { class: "project-name" },
+      projectNameSpan,
+    );
 
-    const projectName = createDOM({
-      element: "span",
-      classList: "project-name",
-    });
-    const projectNameSpan = createDOM({
-      element: "span",
-      textContent: "Personal",
-    });
+    const count = createDOM("span", { class: "count" }, "5");
 
-    const count = createDOM({
-      element: "span",
-      classList: "count",
-      textContent: "5",
-    });
+    const projectTabDiv = createDOM("div", {}, projectName, count);
+    const projectTab = createDOM(
+      "div",
+      { class: "project-tab" },
+      projectTabDiv,
+    );
 
     item.push(projectTab);
     item.push(projectTabDiv);
@@ -91,66 +66,52 @@ const renderSideBar = () => {
     projectItem.push(item);
   }
 
-  // DISPLAYING SIDEBAR ELEMENTS:
+  // Append every projectTab to the projectsList as direct children.
+  const projectsList = createDOM(
+    "div",
+    { class: "projects-list" },
+    ...projectItem.map((p) => p[0]),
+  );
+
+  const projects = createDOM("div", { class: "projects" }, top2, projectsList);
+
+  // DISPLAYING SIDEBAR ELEMENTS (Appending only direct children):
   sideBarContainer.appendChild(top1);
-  top1.appendChild(profile);
-  profile.appendChild(profileName);
-
   sideBarContainer.appendChild(addTask);
-  addTask.appendChild(addTaskButton);
-  addTaskButton.appendChild(addTaskButtonSpan);
-
   sideBarContainer.appendChild(projectTab);
-  projectTab.appendChild(projectTabDiv);
-  projectTabDiv.appendChild(inbox);
-  inbox.appendChild(inboxSpan);
-  projectTabDiv.appendChild(count);
-
   sideBarContainer.appendChild(hr);
-
   sideBarContainer.appendChild(projects);
-  projects.appendChild(top2);
-  top2.appendChild(top2Span);
-  top2.appendChild(actions);
-  projects.appendChild(projectsList);
-
-  projectItem.forEach((project) => {
-    projectsList.appendChild(project[0]);
-    project[0].appendChild(project[1]);
-    project[1].appendChild(project[2]);
-    project[2].appendChild(project[3]);
-    project[1].appendChild(project[4]);
-  });
 
   /* SVG's */
 
   // Avatar Wrapper SVG
   const profileContainer = document.querySelector(".profile");
-  const DOMAvatarWrapperSVG = turnToDOM(avatarWrapperSVG);
+  const DOMAvatarWrapperSVG = createDOM(avatarWrapperSVG, {
+    class: "avatar-wrapper-icon",
+  });
 
-  DOMAvatarWrapperSVG.classList.add("avatar-wrapper-icon");
   profileContainer.insertBefore(
     DOMAvatarWrapperSVG,
     profileContainer.firstChild,
   );
 
   // Chevron Down SVG
-  const DOMChevronDownSVG = turnToDOM(chevronDownSVG);
+  const DOMChevronDownSVG = createDOM(chevronDownSVG, {
+    class: "chevron-down-icon",
+  });
 
-  DOMChevronDownSVG.classList.add("chevron-down-icon");
   profileContainer.appendChild(DOMChevronDownSVG);
 
   // Side Bar SVG
   const topContainer = document.querySelector(".side-bar .top");
-  const DOMSideBarSVG = turnToDOM(sideBarSVG);
-
-  DOMSideBarSVG.classList.add("side-bar-icon");
+  const DOMSideBarSVG = createDOM(sideBarSVG, { class: "side-bar-icon" });
 
   // Plus Circle SVG - Add Task Button
   const addTaskButtonContainer = document.querySelector(".add-task button");
-  const DOMPlusCircleSVG = turnToDOM(plusCircleSVG);
+  const DOMPlusCircleSVG = createDOM(plusCircleSVG, {
+    class: "plus-circle-icon",
+  });
 
-  DOMPlusCircleSVG.classList.add("plus-circle-icon");
   addTaskButtonContainer.insertBefore(
     DOMPlusCircleSVG,
     addTaskButtonContainer.firstChild,
@@ -158,7 +119,7 @@ const renderSideBar = () => {
 
   // Inbox SVG
   const inboxContainer = document.querySelector(".inbox");
-  const DOMInboxSVG = turnToDOM(inboxSVG);
+  const DOMInboxSVG = createDOM(inboxSVG, {});
 
   inboxContainer.insertBefore(DOMInboxSVG, inboxContainer.firstChild);
 
@@ -166,9 +127,10 @@ const renderSideBar = () => {
   const projectsTopActionsContainer = document.querySelector(
     ".side-bar .projects .top .actions",
   );
-  const DOMPlusCircleSVG2 = turnToDOM(plusCircleSVG);
+  const DOMPlusCircleSVG2 = createDOM(plusCircleSVG, {
+    class: "plus-circle-icon",
+  });
 
-  DOMPlusCircleSVG2.classList.add("plus-circle-icon");
   projectsTopActionsContainer.appendChild(DOMPlusCircleSVG2);
 
   // Hash SVG
@@ -177,9 +139,8 @@ const renderSideBar = () => {
   );
 
   projectContainer.forEach((container) => {
-    const DOMHashSVG = turnToDOM(hashSVG);
+    const DOMHashSVG = createDOM(hashSVG, { class: "hash-icon" });
 
-    DOMHashSVG.classList.add("hash-icon");
     container.insertBefore(DOMHashSVG, container.firstChild);
   });
 

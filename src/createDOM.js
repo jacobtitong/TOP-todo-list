@@ -2,13 +2,13 @@ import { default as turnToDOM } from "./turnToDOM.js";
 
 export default function createDOM(type, attributes, ...children) {
   let element;
-  if (typeof type === "string") {
+  if (type[0] === "<" && type.lastIndexOf(">")) {
     element = turnToDOM(type);
   } else {
     element = document.createElement(type);
   }
 
-  for (key in attributes) {
+  for (const key in attributes) {
     element.setAttribute(key, attributes[key]);
   }
 

@@ -1,3 +1,13 @@
+body {
+  background-color: var(--primary-bg);
+  display: grid;
+  grid-template-areas: "sidebar top" "sidebar main";
+  height: 100vh;
+  width: 100vw;
+  grid-template-rows: 59px 1fr;
+  grid-template-columns: max-content 1fr;
+}
+
 @font-face {
   font-family: "inter-bold";
   src:
