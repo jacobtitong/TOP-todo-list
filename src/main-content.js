@@ -1,6 +1,5 @@
 import "./main-content.css";
 import { default as createDOM } from "./createDOM.js";
-import { default as turnToDOM } from "./turnToDOM.js";
 import calendarSVG from "./assets/icons/calendar.svg";
 import hashSVG from "./assets/icons/hash.svg";
 
