@@ -1,10 +1,10 @@
-import "./main-page.css";
+import "./main-content.css";
 import { default as createDOM } from "./createDOM.js";
 import { default as turnToDOM } from "./turnToDOM.js";
 import calendarSVG from "./assets/icons/calendar.svg";
 import hashSVG from "./assets/icons/hash.svg";
 
-const renderMainPage = () => {
+const renderMainContent = () => {
   const mainContentContainer = document.querySelector("main.content");
 
   // CREATING ELEMENTS
@@ -74,4 +74,4 @@ const renderMainPage = () => {
   projectLabelContainer.appendChild(DOMHashSVG);
 };
 
-export default renderMainPage;
+export default renderMainContent;
