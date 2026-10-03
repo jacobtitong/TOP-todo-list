@@ -54,15 +54,15 @@ dialog {
         outline: 0;
       }
 
-      input:nth-of-type(1)::placeholder,
-      input:nth-of-type(1) {
+      #task-name::placeholder,
+      #task-name {
         color: var(--primary-txt);
         font-family: "inter-medium";
         font-size: 1.25rem;
       }
 
-      input:nth-of-type(2)::placeholder,
-      input:nth-of-type(2) {
+      #description::placeholder,
+      #description {
         color: var(--secondary-txt);
       }
     }

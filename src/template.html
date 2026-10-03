@@ -12,12 +12,18 @@
     <dialog>
       <form class="add-task-container">
         <div class="contents">
-          <input type="text" placeholder="Task name" />
-          <input type="text" placeholder="Description" />
+          <label for="task-name"
+            ><input type="text" placeholder="Task name" id="task-name"
+          /></label>
+          <label for="description"
+            ><input type="text" placeholder="Description" id="description"
+          /></label>
         </div>
         <div>
           <div class="additional-contents">
-            <input type="datetime-local" />
+            <label for="due-date"
+              ><input type="datetime-local" id="due-date"
+            /></label>
             <select name="priority">
               <option value="1">1</option>
               <option value="2">2</option>
