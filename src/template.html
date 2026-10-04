@@ -10,7 +10,7 @@
     <nav class="side-bar"></nav>
     <main class="content"></main>
     <dialog>
-      <form class="add-task-container">
+      <form class="add-task-container no-widget">
         <div class="contents">
           <label for="task-name"
             ><input type="text" placeholder="Task name" id="task-name"
@@ -24,12 +24,38 @@
             <label for="due-date"
               ><input type="datetime-local" id="due-date"
             /></label>
-            <select name="priority">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-            </select>
+            <div>
+              <select name="myFruit">
+                <option>Cherry</option>
+                <option>Lemon</option>
+                <option>Banana</option>
+                <option>Strawberry</option>
+                <option>Apple</option>
+              </select>
+
+              <div class="select priority-select" role="listbox">
+                <span class="value">Priority 4</span>
+                <ul class="optList hidden" role="presentation">
+                  <li
+                    id="priority-1"
+                    class="option"
+                    role="option"
+                    aria-selected="true"
+                  >
+                    Priority 1
+                  </li>
+                  <li id="priority-2" class="option" role="option">
+                    Priorty 2
+                  </li>
+                  <li id="priority-3" class="option" role="option">
+                    Priority 3
+                  </li>
+                  <li id="priority-4" class="option" role="option">
+                    Priority 4
+                  </li>
+                </ul>
+              </div>
+            </div>
             <select name="projects">
               <option value="inbox">inbox</option>
             </select>

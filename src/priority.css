@@ -1,0 +1,98 @@
+.priority-select {
+  font-size: 0.9rem;
+  font-family: "inter-regular";
+
+  box-sizing: border-box;
+
+  padding: 0.25em 0.5em;
+  width: max-content;
+
+  border: 0.2em solid var(--divider-clr);
+  border-radius: 0.5em;
+  background: none;
+
+  cursor: pointer;
+
+  color: var(--primary-txt);
+
+  .value {
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    vertical-align: top;
+  }
+
+  .optList {
+    z-index: 2;
+
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    background: var(--primary-bg);
+    border: 0.2em solid var(--divider-clr);
+    border-top-width: 0.1em;
+    border-radius: 0.5em;
+
+    box-shadow: 0 0.2em 0.4em rgb(0 0 0 / 40%);
+
+    box-sizing: border-box;
+
+    min-width: 100%;
+    max-height: 10em;
+
+    width: max-content;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    .option {
+      padding: 0.5em 0.5em;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+
+    #priority-1 {
+      path {
+        stroke: var(--red);
+      }
+    }
+
+    #priority-2 {
+      path {
+        stroke: var(--orange);
+      }
+    }
+
+    #priority-3 {
+      path {
+        stroke: var(--blue);
+      }
+    }
+
+    #priority-4 {
+      path {
+        stroke: var(--secondary-txt);
+      }
+    }
+
+    .highlight {
+      background: var(--hover-bg);
+    }
+  }
+
+  .optList::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.priority-select:hover {
+  background-color: var(--primary-red-transparent);
+}

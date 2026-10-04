@@ -66,6 +66,7 @@ body {
 
   /* Accents & Labels */
   --primary-red: #dc4c3e;
+  --primary-red-transparent: #dc4b3e4f;
   --red: #de4c4a;
   --green: #2ea44f;
   --green-tint-bg: #25352c;
