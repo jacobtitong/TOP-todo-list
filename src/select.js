@@ -35,6 +35,7 @@ const selectManager = (() => {
     const nativeWidget = select.previousElementSibling;
     const value = select.querySelector(".value");
     const optionList = select.querySelectorAll(".option");
+    const childNodes = optionList[index].childNodes;
 
     optionList.forEach((other) => {
       other.setAttribute("aria-selected", "false");
@@ -43,7 +44,14 @@ const selectManager = (() => {
     optionList[index].setAttribute("aria-selected", "true");
 
     nativeWidget.selectedIndex = index;
-    value.textContent = optionList[index].textContent;
+
+    value.textContent = "";
+
+    childNodes.forEach((child) => {
+      const clone = child.cloneNode(true);
+      value.appendChild(clone);
+    });
+
     highlightOption(select, optionList[index]);
   };
 

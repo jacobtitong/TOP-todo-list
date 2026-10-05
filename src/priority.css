@@ -23,6 +23,11 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     vertical-align: top;
+
+    padding: 0 0.5em;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
   }
 
   .optList {
@@ -59,32 +64,32 @@
       gap: 0.5em;
     }
 
-    #priority-1 {
-      path {
-        stroke: var(--red);
-      }
-    }
-
-    #priority-2 {
-      path {
-        stroke: var(--orange);
-      }
-    }
-
-    #priority-3 {
-      path {
-        stroke: var(--blue);
-      }
-    }
-
-    #priority-4 {
-      path {
-        stroke: var(--secondary-txt);
-      }
-    }
-
     .highlight {
       background: var(--hover-bg);
+    }
+  }
+
+  .priority-1 {
+    path {
+      stroke: var(--red);
+    }
+  }
+
+  .priority-2 {
+    path {
+      stroke: var(--orange);
+    }
+  }
+
+  .priority-3 {
+    path {
+      stroke: var(--blue);
+    }
+  }
+
+  .priority-4 {
+    path {
+      stroke: var(--secondary-txt);
     }
   }
 
