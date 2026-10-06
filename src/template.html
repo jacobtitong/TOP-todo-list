@@ -25,26 +25,26 @@
               ><input type="datetime-local" id="due-date"
             /></label>
             <div>
-              <select name="myFruit">
-                <option>Priority 1</option>
-                <option>Priority 2</option>
-                <option>Priority 3</option>
-                <option>Priority 4</option>
+              <select name="priority">
+                <option value="1">Priority 1</option>
+                <option value="2">Priority 2</option>
+                <option value="3">Priority 3</option>
+                <option value="4" selected>Priority 4</option>
               </select>
 
               <div class="select priority-select" role="listbox">
                 <span class="value">Priority 4</span>
                 <ul class="optList hidden" role="presentation">
+                  <li class="option priority-1" role="option">Priority 1</li>
+                  <li class="option priority-2" role="option">Priority 2</li>
+                  <li class="option priority-3" role="option">Priority 3</li>
                   <li
-                    class="option priority-1"
+                    class="option priority-4"
                     role="option"
                     aria-selected="true"
                   >
-                    Priority 1
+                    Priority 4
                   </li>
-                  <li class="option priority-2" role="option">Priorty 2</li>
-                  <li class="option priority-3" role="option">Priority 3</li>
-                  <li class="option priority-4" role="option">Priority 4</li>
                 </ul>
               </div>
             </div>
