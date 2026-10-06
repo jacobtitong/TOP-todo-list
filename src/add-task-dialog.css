@@ -1,32 +1,3 @@
-/* 
-<dialog>
-      <form class="add-task-container">
-        <div class="contents">
-          <input type="text" placeholder="Task name" />
-          <input type="text" placeholder="Description" />
-        </div>
-        <div>
-          <div class="additional-contents">
-            <input type="datetime-local" />
-            <select name="priority">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-            </select>
-            <select name="projects">
-              <option value="inbox">inbox</option>
-            </select>
-          </div>
-          <div class="actions">
-            <button>Cancel</button>
-            <button>Add Task</button>
-          </div>
-        </div>
-      </form>
-    </dialog>
-*/
-
 ::backdrop {
   background-color: var(--primary-bg);
   opacity: 0.5;
@@ -37,6 +8,8 @@ dialog {
   border-radius: 16px;
   border: 1px solid var(--divider-clr);
   background-color: var(--primary-bg);
+  width: 500px;
+  height: 500px;
 
   .add-task-container {
     .contents {

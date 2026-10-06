@@ -1,28 +1,28 @@
-.widget select,
-.no-widget .select {
+.widget label[for="due-date"],
+.no-widget .date-time-picker {
   position: absolute;
   left: -5000em;
   height: 0;
   overflow: hidden;
 }
 
-.select {
+.date-time-picker {
   position: relative;
   display: inline-block;
 }
 
-.select.active,
-.select:focus {
+.date-time-picker.active,
+.date-time-picker:focus {
   background-color: var(--primary-red-transparent);
 }
 
-.select .optList {
+.date-time-picker .date-time {
   position: absolute;
   top: 100%;
   left: 0;
 }
 
-.select .optList.hidden {
+.date-time-picker .date-time.hidden {
   max-height: 0;
   visibility: hidden;
 }

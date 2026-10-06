@@ -4,6 +4,8 @@ import "./add-task-dialog.css";
 import "./select.css";
 import "./priority.css";
 import "./priority.js";
+import "./due-date.css";
+import "./date-time.css";
 import { default as activateSelect } from "./select.js";
 import { default as renderMainContent } from "./main-content.js";
 import "./addTask.js";
