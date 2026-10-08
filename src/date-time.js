@@ -1,10 +1,21 @@
+import {
+  format,
+  getDaysInMonth,
+  getWeekOfMonth,
+  lastDayOfMonth,
+  isSameWeek,
+  subDays,
+  addDays,
+} from "date-fns";
+import { default as createDOM } from "./createDOM.js";
+
 const dateTimeManager = (() => {
   const deactivateDateTimePicker = (dateTimePicker) => {
     if (!dateTimePicker.classList.contains("active")) return;
 
     const dateTime = dateTimePicker.querySelector(".date-time");
 
-    dateTime.classList.add("hidden");
+    toggleDateTime(dateTimePicker);
     dateTimePicker.classList.remove("active");
   };
 
@@ -17,8 +28,10 @@ const dateTimeManager = (() => {
 
   const toggleDateTime = (dateTimePicker) => {
     const dateTime = dateTimePicker.querySelector(".date-time");
+    const daysList = dateTimePicker.querySelectorAll(".days div:not(.day)");
 
     dateTime.classList.toggle("hidden");
+    if (dateTime.classList.contains("hidden")) unPopulateDays(daysList);
   };
 
   const unselectDay = (day) => {
@@ -32,11 +45,72 @@ const dateTimeManager = (() => {
     day.classList.add("selected");
   };
 
+  const getDays = (currentDate) => {
+    const numberOfDays = getDaysInMonth(currentDate);
+
+    const firstDay = currentDate;
+    firstDay.setDate(1); // Get's the first day of the current month
+    const lastDay = lastDayOfMonth(currentDate); // Get's the last day of the current month
+
+    let prevDay = subDays(firstDay, 1);
+    let nextDay = addDays(lastDay, 1);
+
+    // Gets the days of the previous month that is the same week as the first day of the current month.
+    const prevMonthDays = [];
+    while (isSameWeek(firstDay, prevDay, { weekStartsOn: 1 })) {
+      prevMonthDays.push(prevDay.getDate());
+      prevDay = subDays(prevDay, 1);
+    }
+    prevMonthDays.sort();
+
+    // Gets the days of next month that is the same week as the last day of the current month.
+    const nextMonthDays = [];
+    while (isSameWeek(lastDay, nextDay, { weekStartsOn: 1 })) {
+      nextMonthDays.push(nextDay.getDate());
+      nextDay = addDays(nextDay, 1);
+    }
+    nextMonthDays.sort();
+
+    // Gets the days of the current month.
+    const monthDays = [];
+    for (let i = 1; i <= numberOfDays; i++) {
+      monthDays.push(i);
+    }
+
+    return { prevMonthDays, monthDays, nextMonthDays };
+  };
+
+  const populateDays = (dateTimePicker, currentDate) => {
+    const days = getDays(currentDate);
+
+    const daysContainer = dateTimePicker.querySelector(".days");
+
+    days.prevMonthDays.forEach((day) => {
+      const div = createDOM("div", { class: "non-month-day" }, day.toString());
+      daysContainer.appendChild(div);
+    });
+
+    days.monthDays.forEach((day) => {
+      const div = createDOM("div", {}, day.toString());
+      daysContainer.appendChild(div);
+    });
+
+    days.nextMonthDays.forEach((day) => {
+      const div = createDOM("div", { class: "non-month-day" }, day.toString());
+      daysContainer.appendChild(div);
+    });
+  };
+
+  const unPopulateDays = (daysList) => {
+    daysList.forEach((day) => day.remove());
+  };
+
   return {
     deactivateDateTimePicker,
     activeDateTimePicker,
     toggleDateTime,
     selectDay,
+    populateDays,
   };
 })();
 
@@ -68,6 +142,7 @@ const activateDateTimePicker = () => {
     const dateTimePickerValue = dateTimePicker.querySelector(".value");
 
     dateTimePickerValue.addEventListener("click", (event) => {
+      dateTimeManager.populateDays(dateTimePicker, new Date());
       dateTimeManager.toggleDateTime(dateTimePicker);
     });
 
