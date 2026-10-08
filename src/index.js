@@ -6,6 +6,7 @@ import "./priority.css";
 import "./priority.js";
 import "./due-date.css";
 import "./date-time.css";
+import { default as activateDateTimePicker } from "./date-time.js";
 import { default as activateSelect } from "./select.js";
 import { default as renderMainContent } from "./main-content.js";
 import "./addTask.js";
@@ -19,3 +20,4 @@ const dialog = document.querySelector("dialog");
 dialog.showModal();
 
 activateSelect();
+activateDateTimePicker();

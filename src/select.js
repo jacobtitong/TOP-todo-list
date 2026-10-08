@@ -15,7 +15,7 @@ const selectManager = (() => {
     select.classList.add("active");
   };
 
-  const toggleOptList = (select, show) => {
+  const toggleOptList = (select) => {
     const optList = select.querySelector(".optList");
 
     optList.classList.toggle("hidden");
