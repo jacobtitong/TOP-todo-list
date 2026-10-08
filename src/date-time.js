@@ -123,26 +123,24 @@ const activateDateTimePicker = () => {
   const dateTimePickerList = document.querySelectorAll(".date-time-picker");
 
   dateTimePickerList.forEach((dateTimePicker) => {
-    const dateTimeList = dateTimePicker.querySelectorAll(".date-time");
+    const dateTimePickerValue = dateTimePicker.querySelector(".value");
 
-    dateTimeList.forEach((dateTime) => {
-      const dayListContainer = dateTime.querySelector(".days");
+    dateTimePickerValue.addEventListener("click", (event) => {
+      // Populates the days in the DOM within the dateTimePicker
+      dateTimeManager.populateDays(dateTimePicker, new Date());
 
+      // Makes each day have an event listener for being selected.
+      const dayListContainer = dateTimePicker.querySelector(".days");
       const days = dayListContainer.querySelectorAll(
         "div:not(.non-month-day, .day)",
       );
-
       days.forEach((day) => {
         day.addEventListener("click", (event) => {
           dateTimeManager.selectDay(days, day);
         });
       });
-    });
 
-    const dateTimePickerValue = dateTimePicker.querySelector(".value");
-
-    dateTimePickerValue.addEventListener("click", (event) => {
-      dateTimeManager.populateDays(dateTimePicker, new Date());
+      // Shows/Hides date-time container
       dateTimeManager.toggleDateTime(dateTimePicker);
     });
 
