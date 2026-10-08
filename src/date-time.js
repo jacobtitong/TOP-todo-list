@@ -6,6 +6,7 @@ import {
   subDays,
   addDays,
   subMonths,
+  addMonths,
 } from "date-fns";
 import { default as createDOM } from "./createDOM.js";
 
@@ -43,24 +44,39 @@ const dateTimeManager = (() => {
     day.classList.add("selected");
   };
 
+  const allowSelection = (dateTimePicker) => {
+    // Makes each day have an event listener for being selected.
+    const dayListContainer = dateTimePicker.querySelector(".days");
+    const days = dayListContainer.querySelectorAll(
+      "div:not(.non-month-day, .day)",
+    );
+    days.forEach((day) => {
+      day.addEventListener("click", (event) => {
+        selectDay(days, day);
+      });
+    });
+  };
+
   const getPreviousMonth = (currentDate) => {
     return subMonths(currentDate, 1);
   };
 
-  const displayPreviousMonth = (dateTimePicker, currentDate) => {
-    const previousMonth = getPreviousMonth(currentDate);
-
-    const monthYear = dateTimePicker.querySelector(".dates .month");
-
-    monthYear.textContent = format(previousMonth, "MMMM yyyy");
-
-    return previousMonth;
+  const getNextMonth = (currentDate) => {
+    return addMonths(currentDate, 1);
   };
 
   const displayCurrentMonthYear = (dateTimePicker, currentDate) => {
     const monthYear = dateTimePicker.querySelector(".dates .month");
-
     monthYear.textContent = format(currentDate, "MMMM yyyy");
+
+    const daysList = dateTimePicker.querySelectorAll(".days div:not(.day)");
+    unPopulateDays(daysList);
+
+    populateDays(dateTimePicker, currentDate);
+
+    allowSelection(dateTimePicker);
+
+    return currentDate;
   };
 
   const getDays = (currentDate) => {
@@ -121,18 +137,15 @@ const dateTimeManager = (() => {
 
   const unPopulateDays = (daysList) => {
     daysList.forEach((day) => day.remove());
-    console.log("removed");
   };
 
   return {
     deactivateDateTimePicker,
     activeDateTimePicker,
     toggleDateTime,
-    selectDay,
-    populateDays,
-    displayPreviousMonth,
+    getPreviousMonth,
+    getNextMonth,
     displayCurrentMonthYear,
-    unPopulateDays,
   };
 })();
 
@@ -145,7 +158,7 @@ const activateDateTimePicker = () => {
   const dateTimePickerList = document.querySelectorAll(".date-time-picker");
 
   dateTimePickerList.forEach((dateTimePicker) => {
-    let daysList = dateTimePicker.querySelectorAll(".days div:not(.day)");
+    let currentDate;
     const dateTime = dateTimePicker.querySelector(".date-time");
     const dateTimePickerValue = dateTimePicker.querySelector(".value");
     const monthLeftArrow = dateTimePicker.querySelector(
@@ -155,40 +168,31 @@ const activateDateTimePicker = () => {
       ".month-tab .arrows.next-month",
     );
 
+    monthLeftArrow.addEventListener("click", (event) => {
+      currentDate = dateTimeManager.displayCurrentMonthYear(
+        dateTimePicker,
+        dateTimeManager.getPreviousMonth(currentDate),
+      );
+    });
+
+    monthRightArrow.addEventListener("click", (event) => {
+      currentDate = dateTimeManager.displayCurrentMonthYear(
+        dateTimePicker,
+        dateTimeManager.getNextMonth(currentDate),
+      );
+    });
+
     dateTimePickerValue.addEventListener("click", (event) => {
       if (!dateTime.classList.contains("hidden")) {
-        dateTimeManager.unPopulateDays(daysList);
+        // Hides date-time container
         dateTimeManager.toggleDateTime(dateTimePicker);
         return;
       }
 
-      let currentDate = new Date();
-
-      // Populates the days in the DOM within the dateTimePicker
-      dateTimeManager.populateDays(dateTimePicker, currentDate);
-      daysList = dateTimePicker.querySelectorAll(".days div:not(.day)");
-
+      currentDate = new Date();
       dateTimeManager.displayCurrentMonthYear(dateTimePicker, currentDate);
 
-      // Makes each day have an event listener for being selected.
-      const dayListContainer = dateTimePicker.querySelector(".days");
-      const days = dayListContainer.querySelectorAll(
-        "div:not(.non-month-day, .day)",
-      );
-      days.forEach((day) => {
-        day.addEventListener("click", (event) => {
-          dateTimeManager.selectDay(days, day);
-        });
-      });
-
-      monthLeftArrow.addEventListener("click", (event) => {
-        currentDate = dateTimeManager.displayPreviousMonth(
-          dateTimePicker,
-          currentDate,
-        );
-      });
-
-      // Shows/Hides date-time container
+      // Shows date-time container
       dateTimeManager.toggleDateTime(dateTimePicker);
     });
 
@@ -197,13 +201,11 @@ const activateDateTimePicker = () => {
     });
 
     dateTimePicker.addEventListener("blur", (event) => {
-      dateTimeManager.unPopulateDays(daysList);
       dateTimeManager.deactivateDateTimePicker(dateTimePicker);
     });
 
     dateTimePicker.addEventListener("keyup", (event) => {
       if (event.key === "Escape") {
-        dateTimeManager.unPopulateDays(daysList);
         dateTimeManager.deactivateDateTimePicker(dateTimePicker);
       }
 
