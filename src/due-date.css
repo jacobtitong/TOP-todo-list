@@ -71,7 +71,7 @@
       border-right: 1px solid var(--divider-clr);
       padding-right: 1em;
 
-      .month {
+      .month-tab {
         font-size: 1rem;
         font-family: "inter-bold";
         display: flex;

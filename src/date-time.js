@@ -1,11 +1,11 @@
 import {
   format,
   getDaysInMonth,
-  getWeekOfMonth,
   lastDayOfMonth,
   isSameWeek,
   subDays,
   addDays,
+  subMonths,
 } from "date-fns";
 import { default as createDOM } from "./createDOM.js";
 
@@ -15,7 +15,7 @@ const dateTimeManager = (() => {
 
     const dateTime = dateTimePicker.querySelector(".date-time");
 
-    toggleDateTime(dateTimePicker);
+    dateTime.classList.add("hidden");
     dateTimePicker.classList.remove("active");
   };
 
@@ -28,10 +28,8 @@ const dateTimeManager = (() => {
 
   const toggleDateTime = (dateTimePicker) => {
     const dateTime = dateTimePicker.querySelector(".date-time");
-    const daysList = dateTimePicker.querySelectorAll(".days div:not(.day)");
 
     dateTime.classList.toggle("hidden");
-    if (dateTime.classList.contains("hidden")) unPopulateDays(daysList);
   };
 
   const unselectDay = (day) => {
@@ -43,6 +41,26 @@ const dateTimeManager = (() => {
 
     days.forEach(unselectDay);
     day.classList.add("selected");
+  };
+
+  const getPreviousMonth = (currentDate) => {
+    return subMonths(currentDate, 1);
+  };
+
+  const displayPreviousMonth = (dateTimePicker, currentDate) => {
+    const previousMonth = getPreviousMonth(currentDate);
+
+    const monthYear = dateTimePicker.querySelector(".dates .month");
+
+    monthYear.textContent = format(previousMonth, "MMMM yyyy");
+
+    return previousMonth;
+  };
+
+  const displayCurrentMonthYear = (dateTimePicker, currentDate) => {
+    const monthYear = dateTimePicker.querySelector(".dates .month");
+
+    monthYear.textContent = format(currentDate, "MMMM yyyy");
   };
 
   const getDays = (currentDate) => {
@@ -103,6 +121,7 @@ const dateTimeManager = (() => {
 
   const unPopulateDays = (daysList) => {
     daysList.forEach((day) => day.remove());
+    console.log("removed");
   };
 
   return {
@@ -111,6 +130,9 @@ const dateTimeManager = (() => {
     toggleDateTime,
     selectDay,
     populateDays,
+    displayPreviousMonth,
+    displayCurrentMonthYear,
+    unPopulateDays,
   };
 })();
 
@@ -123,11 +145,30 @@ const activateDateTimePicker = () => {
   const dateTimePickerList = document.querySelectorAll(".date-time-picker");
 
   dateTimePickerList.forEach((dateTimePicker) => {
+    let daysList = dateTimePicker.querySelectorAll(".days div:not(.day)");
+    const dateTime = dateTimePicker.querySelector(".date-time");
     const dateTimePickerValue = dateTimePicker.querySelector(".value");
+    const monthLeftArrow = dateTimePicker.querySelector(
+      ".month-tab .arrows.prev-month",
+    );
+    const monthRightArrow = dateTimePicker.querySelector(
+      ".month-tab .arrows.next-month",
+    );
 
     dateTimePickerValue.addEventListener("click", (event) => {
+      if (!dateTime.classList.contains("hidden")) {
+        dateTimeManager.unPopulateDays(daysList);
+        dateTimeManager.toggleDateTime(dateTimePicker);
+        return;
+      }
+
+      let currentDate = new Date();
+
       // Populates the days in the DOM within the dateTimePicker
-      dateTimeManager.populateDays(dateTimePicker, new Date());
+      dateTimeManager.populateDays(dateTimePicker, currentDate);
+      daysList = dateTimePicker.querySelectorAll(".days div:not(.day)");
+
+      dateTimeManager.displayCurrentMonthYear(dateTimePicker, currentDate);
 
       // Makes each day have an event listener for being selected.
       const dayListContainer = dateTimePicker.querySelector(".days");
@@ -140,6 +181,13 @@ const activateDateTimePicker = () => {
         });
       });
 
+      monthLeftArrow.addEventListener("click", (event) => {
+        currentDate = dateTimeManager.displayPreviousMonth(
+          dateTimePicker,
+          currentDate,
+        );
+      });
+
       // Shows/Hides date-time container
       dateTimeManager.toggleDateTime(dateTimePicker);
     });
@@ -149,15 +197,18 @@ const activateDateTimePicker = () => {
     });
 
     dateTimePicker.addEventListener("blur", (event) => {
+      dateTimeManager.unPopulateDays(daysList);
       dateTimeManager.deactivateDateTimePicker(dateTimePicker);
     });
 
     dateTimePicker.addEventListener("keyup", (event) => {
       if (event.key === "Escape") {
+        dateTimeManager.unPopulateDays(daysList);
         dateTimeManager.deactivateDateTimePicker(dateTimePicker);
       }
 
       if (event.key === "Enter" || event.key === " ") {
+        // Add the same functionalities here when dateTimePickerValue is clicked ("click" listener)
         dateTimeManager.toggleDateTime(dateTimePicker);
       }
     });
