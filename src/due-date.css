@@ -11,6 +11,8 @@
   border-radius: 0.5em;
   background: none;
 
+  cursor: pointer;
+
   color: var(--primary-txt);
 
   .value {
@@ -170,4 +172,8 @@
       }
     }
   }
+}
+
+.date-time-picker:hover {
+  background-color: var(--primary-red-transparent);
 }

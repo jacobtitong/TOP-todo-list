@@ -11,12 +11,12 @@ const dateTimeManager = (() => {
   const activeDateTimePicker = (dateTimePicker, dateTimePickerList) => {
     if (dateTimePicker.classList.contains("active")) return;
 
-    dateTimePickerList.forEach(deactivateDateTime);
+    dateTimePickerList.forEach(deactivateDateTimePicker);
     dateTimePicker.classList.add("active");
   };
 
   const toggleDateTime = (dateTimePicker) => {
-    const dateTime = dateTimePicker.querySelector(".optList");
+    const dateTime = dateTimePicker.querySelector(".date-time");
 
     dateTime.classList.toggle("hidden");
   };
@@ -59,10 +59,34 @@ const activateDateTimePicker = () => {
       );
 
       days.forEach((day) => {
-        day.addEventListener("click", (e) => {
+        day.addEventListener("click", (event) => {
           dateTimeManager.selectDay(days, day);
         });
       });
+    });
+
+    const dateTimePickerValue = dateTimePicker.querySelector(".value");
+
+    dateTimePickerValue.addEventListener("click", (event) => {
+      dateTimeManager.toggleDateTime(dateTimePicker);
+    });
+
+    dateTimePicker.addEventListener("focus", (event) => {
+      dateTimeManager.activeDateTimePicker(dateTimePicker, dateTimePickerList);
+    });
+
+    dateTimePicker.addEventListener("blur", (event) => {
+      dateTimeManager.deactivateDateTimePicker(dateTimePicker);
+    });
+
+    dateTimePicker.addEventListener("keyup", (event) => {
+      if (event.key === "Escape") {
+        dateTimeManager.deactivateDateTimePicker(dateTimePicker);
+      }
+
+      if (event.key === "Enter" || event.key === " ") {
+        dateTimeManager.toggleDateTime(dateTimePicker);
+      }
     });
   });
 };

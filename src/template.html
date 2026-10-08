@@ -25,10 +25,10 @@
               <label for="due-date"
                 ><input type="datetime-local" id="due-date"
               /></label>
-              <div class="date-time-picker">
+              <div class="date-time-picker" tabindex="0">
                 <div class="value">No Date</div>
 
-                <div class="date-time">
+                <div class="date-time hidden">
                   <div class="dates">
                     <div class="month">
                       <div class="arrows prev-month">&lt;</div>
@@ -101,7 +101,7 @@
               </div>
             </div>
             <div>
-              <select name="priority">
+              <select name="priority" tabindex="0">
                 <option value="1">Priority 1</option>
                 <option value="2">Priority 2</option>
                 <option value="3">Priority 3</option>
