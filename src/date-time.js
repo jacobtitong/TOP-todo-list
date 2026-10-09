@@ -182,18 +182,34 @@ const activateDateTimePicker = () => {
       );
     });
 
-    dateTimePickerValue.addEventListener("click", (event) => {
-      if (!dateTime.classList.contains("hidden")) {
-        // Hides date-time container
-        dateTimeManager.toggleDateTime(dateTimePicker);
+    ["click", "keyup"].forEach((listen) => {
+      dateTimePicker.addEventListener(listen, (event) => {
+        if (
+          event.target === dateTimePickerValue ||
+          event.target === dateTimePicker
+        ) {
+          if (!dateTime.classList.contains("hidden")) {
+            // Hides date-time container
+            dateTimeManager.toggleDateTime(dateTimePicker);
+            return;
+          }
+          if (
+            event.key === "Enter" ||
+            event.key === " " ||
+            event.type === "click"
+          ) {
+            currentDate = new Date();
+            dateTimeManager.displayCurrentMonthYear(
+              dateTimePicker,
+              currentDate,
+            );
+
+            // Shows date-time container
+            dateTimeManager.toggleDateTime(dateTimePicker);
+          }
+        }
         return;
-      }
-
-      currentDate = new Date();
-      dateTimeManager.displayCurrentMonthYear(dateTimePicker, currentDate);
-
-      // Shows date-time container
-      dateTimeManager.toggleDateTime(dateTimePicker);
+      });
     });
 
     dateTimePicker.addEventListener("focus", (event) => {
@@ -207,11 +223,6 @@ const activateDateTimePicker = () => {
     dateTimePicker.addEventListener("keyup", (event) => {
       if (event.key === "Escape") {
         dateTimeManager.deactivateDateTimePicker(dateTimePicker);
-      }
-
-      if (event.key === "Enter" || event.key === " ") {
-        // Add the same functionalities here when dateTimePickerValue is clicked ("click" listener)
-        dateTimeManager.toggleDateTime(dateTimePicker);
       }
     });
   });
