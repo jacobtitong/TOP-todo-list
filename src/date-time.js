@@ -7,10 +7,13 @@ import {
   addDays,
   subMonths,
   addMonths,
+  set,
 } from "date-fns";
 import { default as createDOM } from "./createDOM.js";
 
 const dateTimeManager = (() => {
+  let chosenDate;
+
   const deactivateDateTimePicker = (dateTimePicker) => {
     if (!dateTimePicker.classList.contains("active")) return;
 
@@ -37,24 +40,30 @@ const dateTimeManager = (() => {
     day.classList.remove("selected");
   };
 
-  const selectDay = (days, day) => {
+  const selectDay = (days, day, currentDate, index) => {
     if (day.classList.contains("selected")) return;
 
     days.forEach(unselectDay);
     day.classList.add("selected");
+
+    updateChosenDate(currentDate, index);
   };
 
-  const allowSelection = (dateTimePicker) => {
+  const allowSelection = (dateTimePicker, currentDate) => {
     // Makes each day have an event listener for being selected.
     const dayListContainer = dateTimePicker.querySelector(".days");
     const days = dayListContainer.querySelectorAll(
       "div:not(.non-month-day, .day)",
     );
-    days.forEach((day) => {
+    days.forEach((day, index) => {
       day.addEventListener("click", (event) => {
-        selectDay(days, day);
+        selectDay(days, day, currentDate, index + 1);
       });
     });
+  };
+
+  const updateChosenDate = (currentDate, selectedDay) => {
+    chosenDate = set(currentDate, { date: selectedDay });
   };
 
   const getPreviousMonth = (currentDate) => {
@@ -74,7 +83,7 @@ const dateTimeManager = (() => {
 
     populateDays(dateTimePicker, currentDate);
 
-    allowSelection(dateTimePicker);
+    allowSelection(dateTimePicker, currentDate);
 
     return currentDate;
   };
@@ -82,8 +91,7 @@ const dateTimeManager = (() => {
   const getDays = (currentDate) => {
     const numberOfDays = getDaysInMonth(currentDate);
 
-    const firstDay = currentDate;
-    firstDay.setDate(1); // Get's the first day of the current month
+    const firstDay = set(currentDate, { date: 1 }); // Get's the first day of the current month
     const lastDay = lastDayOfMonth(currentDate); // Get's the last day of the current month
 
     let prevDay = subDays(firstDay, 1);
@@ -229,3 +237,8 @@ const activateDateTimePicker = () => {
 };
 
 export default activateDateTimePicker;
+
+/* Next steps:
+1. Allow automatic selection upon current day
+2. Get date of selection
+*/
