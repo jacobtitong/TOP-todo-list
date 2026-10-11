@@ -8,6 +8,8 @@ import {
   subMonths,
   addMonths,
   set,
+  getDate,
+  isSameDay,
 } from "date-fns";
 import { default as createDOM } from "./createDOM.js";
 
@@ -63,7 +65,8 @@ const dateTimeManager = (() => {
   };
 
   const updateChosenDate = (currentDate, selectedDay) => {
-    chosenDate = set(currentDate, { date: selectedDay });
+    currentDate.setDate(selectedDay);
+    chosenDate = currentDate;
   };
 
   const getPreviousMonth = (currentDate) => {
@@ -84,6 +87,21 @@ const dateTimeManager = (() => {
     populateDays(dateTimePicker, currentDate);
 
     allowSelection(dateTimePicker, currentDate);
+
+    // It remembers to select the chosen date so that, even if the user navigates to a different monthYear, the chosenDate will always be selected in the appropriate monthYear tab.
+    if (isSameDay(currentDate, chosenDate)) {
+      const dayListContainer = dateTimePicker.querySelector(".days");
+      const days = dayListContainer.querySelectorAll(
+        "div:not(.non-month-day, .day)",
+      );
+
+      selectDay(
+        days,
+        days[getDate(chosenDate) - 1],
+        chosenDate,
+        getDate(chosenDate),
+      );
+    }
 
     return currentDate;
   };
@@ -154,6 +172,7 @@ const dateTimeManager = (() => {
     getPreviousMonth,
     getNextMonth,
     displayCurrentMonthYear,
+    updateChosenDate,
   };
 })();
 
@@ -207,6 +226,9 @@ const activateDateTimePicker = () => {
             event.type === "click"
           ) {
             currentDate = new Date();
+
+            dateTimeManager.updateChosenDate(currentDate, getDate(currentDate)); // Updates chosen date to today's date.
+
             dateTimeManager.displayCurrentMonthYear(
               dateTimePicker,
               currentDate,
