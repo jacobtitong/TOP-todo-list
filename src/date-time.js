@@ -12,6 +12,8 @@ import {
   isSameDay,
   getHours,
   getMinutes,
+  addHours,
+  subHours,
 } from "date-fns";
 import { default as createDOM } from "./createDOM.js";
 
@@ -71,16 +73,28 @@ const dateTimeManager = (() => {
     chosenDate = currentDate;
   };
 
-  const updateTime = (currentDate) => {
-    //
-  };
-
   const getPreviousMonth = (currentDate) => {
     return subMonths(currentDate, 1);
   };
 
   const getNextMonth = (currentDate) => {
     return addMonths(currentDate, 1);
+  };
+
+  const updateChosenTime = (currentDate) => {
+    chosenDate = set(currentDate, {
+      hours: getHours(currentDate),
+      minutes: getMinutes(currentDate),
+    });
+    currentDate.setTime(chosenDate);
+  };
+
+  const getPreviousHour = (currentDate) => {
+    return subHours(currentDate, 1);
+  };
+
+  const getNextHour = (currentDate) => {
+    return addHours(currentDate, 1);
   };
 
   const displayCurrentTime = (dateTimePicker, currentDate) => {
@@ -111,6 +125,10 @@ const dateTimeManager = (() => {
     minute.textContent = minuteValue.toString().padStart(2, "0");
 
     selectState(stateContainer, morning);
+
+    updateChosenTime(currentDate);
+
+    return currentDate;
   };
 
   const selectState = (stateContainer, state) => {
@@ -228,6 +246,8 @@ const dateTimeManager = (() => {
     displayCurrentMonthYear,
     updateChosenDate,
     displayCurrentTime,
+    getPreviousHour,
+    getNextHour,
   };
 })();
 
@@ -249,6 +269,12 @@ const activateDateTimePicker = () => {
     const monthRightArrow = dateTimePicker.querySelector(
       ".month-tab .arrows.next-month",
     );
+    const hoursArrowDown = dateTimePicker.querySelector(
+      ".time .arrows.prev-hour",
+    );
+    const hoursArrowUp = dateTimePicker.querySelector(
+      ".time .arrows.next-hour",
+    );
 
     monthLeftArrow.addEventListener("click", (event) => {
       currentDate = dateTimeManager.displayCurrentMonthYear(
@@ -261,6 +287,20 @@ const activateDateTimePicker = () => {
       currentDate = dateTimeManager.displayCurrentMonthYear(
         dateTimePicker,
         dateTimeManager.getNextMonth(currentDate),
+      );
+    });
+
+    hoursArrowDown.addEventListener("click", (event) => {
+      currentDate = dateTimeManager.displayCurrentTime(
+        dateTimePicker,
+        dateTimeManager.getNextHour(currentDate),
+      );
+    });
+
+    hoursArrowUp.addEventListener("click", (event) => {
+      currentDate = dateTimeManager.displayCurrentTime(
+        dateTimePicker,
+        dateTimeManager.getPreviousHour(currentDate),
       );
     });
 
