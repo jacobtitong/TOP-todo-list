@@ -10,6 +10,8 @@ import {
   set,
   getDate,
   isSameDay,
+  getHours,
+  getMinutes,
 } from "date-fns";
 import { default as createDOM } from "./createDOM.js";
 
@@ -69,12 +71,64 @@ const dateTimeManager = (() => {
     chosenDate = currentDate;
   };
 
+  const updateTime = (currentDate) => {
+    //
+  };
+
   const getPreviousMonth = (currentDate) => {
     return subMonths(currentDate, 1);
   };
 
   const getNextMonth = (currentDate) => {
     return addMonths(currentDate, 1);
+  };
+
+  const displayCurrentTime = (dateTimePicker, currentDate) => {
+    const timeContainer = dateTimePicker.querySelector(".time");
+    const hour = timeContainer.querySelector(".hour");
+    const minute = timeContainer.querySelector(".minute");
+    const stateContainer = timeContainer.querySelector(".state");
+
+    let hourValue = getHours(currentDate);
+    const minuteValue = getMinutes(currentDate);
+    let morning = true;
+
+    // Because AM corresponds from 00:00 to 11:59 in a 24-hour clock
+    if (hourValue > 11) {
+      morning = false;
+    }
+
+    // So that the time becomes a 12-hour clock.
+    if (hourValue > 12) {
+      hourValue = hourValue - 12;
+    }
+
+    if (hourValue === 0) {
+      hourValue = 12;
+    }
+
+    hour.textContent = hourValue.toString().padStart(2, "0");
+    minute.textContent = minuteValue.toString().padStart(2, "0");
+
+    selectState(stateContainer, morning);
+  };
+
+  const selectState = (stateContainer, state) => {
+    deselectStates(stateContainer);
+    if (state) {
+      const AM = stateContainer.querySelector("div:nth-of-type(1)");
+      AM.classList.add("selected");
+    } else {
+      const PM = stateContainer.querySelector("div:nth-of-type(2)");
+      PM.classList.add("selected");
+    }
+  };
+
+  const deselectStates = (stateContainer) => {
+    const allStates = stateContainer.querySelectorAll("div");
+    allStates.forEach((state) => {
+      state.classList.remove("selected");
+    });
   };
 
   const displayCurrentMonthYear = (dateTimePicker, currentDate) => {
@@ -173,6 +227,7 @@ const dateTimeManager = (() => {
     getNextMonth,
     displayCurrentMonthYear,
     updateChosenDate,
+    displayCurrentTime,
   };
 })();
 
@@ -234,6 +289,8 @@ const activateDateTimePicker = () => {
               currentDate,
             );
 
+            dateTimeManager.displayCurrentTime(dateTimePicker, currentDate);
+
             // Shows date-time container
             dateTimeManager.toggleDateTime(dateTimePicker);
           }
@@ -259,8 +316,3 @@ const activateDateTimePicker = () => {
 };
 
 export default activateDateTimePicker;
-
-/* Next steps:
-1. Allow automatic selection upon current day
-2. Get date of selection
-*/
