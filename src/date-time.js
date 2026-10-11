@@ -75,6 +75,10 @@ const dateTimeManager = (() => {
     chosenDate = currentDate;
   };
 
+  const getChosenDate = () => {
+    return chosenDate;
+  };
+
   const getPreviousMonth = (currentDate) => {
     return subMonths(currentDate, 1);
   };
@@ -88,8 +92,8 @@ const dateTimeManager = (() => {
       hours: getHours(currentDate),
       minutes: getMinutes(currentDate),
     });
-    currentDate.setTime(chosenDate);
-    console.log(chosenDate);
+    // Use .getTime() because setTime expects numerical milliseconds
+    currentDate.setTime(chosenDate.getTime());
   };
 
   const getPreviousHour = (currentDate) => {
@@ -265,14 +269,17 @@ const dateTimeManager = (() => {
     getPreviousMinute,
     getNextMinute,
     updateChosenTime,
+    getChosenDate,
   };
 })();
 
 const activateDateTimePicker = () => {
   const form = document.querySelector("form");
 
-  form.classList.remove("no-widget");
-  form.classList.add("widget");
+  if (form) {
+    form.classList.remove("no-widget");
+    form.classList.add("widget");
+  }
 
   const dateTimePickerList = document.querySelectorAll(".date-time-picker");
 
@@ -301,6 +308,19 @@ const activateDateTimePicker = () => {
     const stateContainer = dateTimePicker.querySelector(".time .state");
     const states = stateContainer.querySelectorAll("div");
 
+    // Helper function to sync time changes with calendar re-renders if midnight is crossed
+    const handleTimeChange = (newDate) => {
+      const dayChanged = !isSameDay(currentDate, newDate);
+
+      currentDate = dateTimeManager.displayCurrentTime(dateTimePicker, newDate);
+
+      // If adding/subtracting time crosses into a new day or month, re-render the calendar
+      if (dayChanged) {
+        dateTimeManager.updateChosenDate(currentDate, getDate(currentDate));
+        dateTimeManager.displayCurrentMonthYear(dateTimePicker, currentDate);
+      }
+    };
+
     monthLeftArrow.addEventListener("click", (event) => {
       currentDate = dateTimeManager.displayCurrentMonthYear(
         dateTimePicker,
@@ -315,32 +335,20 @@ const activateDateTimePicker = () => {
       );
     });
 
-    hoursArrowDown.addEventListener("click", (event) => {
-      currentDate = dateTimeManager.displayCurrentTime(
-        dateTimePicker,
-        dateTimeManager.getPreviousHour(currentDate),
-      );
+    hoursArrowDown.addEventListener("click", () => {
+      handleTimeChange(dateTimeManager.getPreviousHour(currentDate));
     });
 
-    hoursArrowUp.addEventListener("click", (event) => {
-      currentDate = dateTimeManager.displayCurrentTime(
-        dateTimePicker,
-        dateTimeManager.getNextHour(currentDate),
-      );
+    hoursArrowUp.addEventListener("click", () => {
+      handleTimeChange(dateTimeManager.getNextHour(currentDate));
     });
 
-    minutesArrowDown.addEventListener("click", (event) => {
-      currentDate = dateTimeManager.displayCurrentTime(
-        dateTimePicker,
-        dateTimeManager.getPreviousMinute(currentDate),
-      );
+    minutesArrowDown.addEventListener("click", () => {
+      handleTimeChange(dateTimeManager.getPreviousMinute(currentDate));
     });
 
-    minutesArrowUp.addEventListener("click", (event) => {
-      currentDate = dateTimeManager.displayCurrentTime(
-        dateTimePicker,
-        dateTimeManager.getNextMinute(currentDate),
-      );
+    minutesArrowUp.addEventListener("click", () => {
+      handleTimeChange(dateTimeManager.getNextMinute(currentDate));
     });
 
     states.forEach((state) => {
@@ -349,25 +357,14 @@ const activateDateTimePicker = () => {
           event.currentTarget ===
           stateContainer.querySelector("div:nth-of-type(1)");
         const isSelected = event.currentTarget.classList.contains("selected");
-        console.log(isAM, isSelected);
 
         if (isAM && !isSelected) {
           // Subtracts when AM is picked, and has not been selected yet.
-          currentDate = dateTimeManager.displayCurrentTime(
-            dateTimePicker,
-            subHours(currentDate, 12),
-          );
-          console.log("Subtracted");
+          handleTimeChange(subHours(currentDate, 12));
         } else if (!isSelected) {
           // Adds when PM is picked, and has not been selected yet.
-          currentDate = dateTimeManager.displayCurrentTime(
-            dateTimePicker,
-            addHours(currentDate, 12),
-          );
-          console.log("Added");
+          handleTimeChange(addHours(currentDate, 12));
         }
-        // The if-else is not ran when the state already contains "selected" class.
-        return;
       });
     });
 
@@ -387,15 +384,16 @@ const activateDateTimePicker = () => {
             event.key === " " ||
             event.type === "click"
           ) {
-            currentDate = new Date();
+            // Only initialize a new date if one hasn't been set yet (prevents resetting on re-open)
+            if (!currentDate) {
+              currentDate = new Date();
+            }
 
             dateTimeManager.updateChosenDate(currentDate, getDate(currentDate)); // Updates chosen date to today's date.
-
             dateTimeManager.displayCurrentMonthYear(
               dateTimePicker,
               currentDate,
             );
-
             dateTimeManager.displayCurrentTime(dateTimePicker, currentDate);
 
             // Shows date-time container
