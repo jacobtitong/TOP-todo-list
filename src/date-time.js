@@ -89,6 +89,7 @@ const dateTimeManager = (() => {
       minutes: getMinutes(currentDate),
     });
     currentDate.setTime(chosenDate);
+    console.log(chosenDate);
   };
 
   const getPreviousHour = (currentDate) => {
@@ -134,7 +135,14 @@ const dateTimeManager = (() => {
     hour.textContent = hourValue.toString().padStart(2, "0");
     minute.textContent = minuteValue.toString().padStart(2, "0");
 
-    selectState(stateContainer, morning);
+    let state;
+    if (morning) {
+      state = stateContainer.querySelector("div:nth-of-type(1)");
+    } else {
+      state = stateContainer.querySelector("div:nth-of-type(2)");
+    }
+
+    selectState(stateContainer, state);
 
     updateChosenTime(currentDate);
 
@@ -142,14 +150,10 @@ const dateTimeManager = (() => {
   };
 
   const selectState = (stateContainer, state) => {
+    if (state.classList.contains("selected")) return;
+
     deselectStates(stateContainer);
-    if (state) {
-      const AM = stateContainer.querySelector("div:nth-of-type(1)");
-      AM.classList.add("selected");
-    } else {
-      const PM = stateContainer.querySelector("div:nth-of-type(2)");
-      PM.classList.add("selected");
-    }
+    state.classList.add("selected");
   };
 
   const deselectStates = (stateContainer) => {
@@ -260,6 +264,7 @@ const dateTimeManager = (() => {
     getNextHour,
     getPreviousMinute,
     getNextMinute,
+    updateChosenTime,
   };
 })();
 
@@ -293,6 +298,8 @@ const activateDateTimePicker = () => {
     const minutesArrowUp = dateTimePicker.querySelector(
       ".time .arrows.next-minute",
     );
+    const stateContainer = dateTimePicker.querySelector(".time .state");
+    const states = stateContainer.querySelectorAll("div");
 
     monthLeftArrow.addEventListener("click", (event) => {
       currentDate = dateTimeManager.displayCurrentMonthYear(
@@ -334,6 +341,34 @@ const activateDateTimePicker = () => {
         dateTimePicker,
         dateTimeManager.getNextMinute(currentDate),
       );
+    });
+
+    states.forEach((state) => {
+      state.addEventListener("click", (event) => {
+        const isAM =
+          event.currentTarget ===
+          stateContainer.querySelector("div:nth-of-type(1)");
+        const isSelected = event.currentTarget.classList.contains("selected");
+        console.log(isAM, isSelected);
+
+        if (isAM && !isSelected) {
+          // Subtracts when AM is picked, and has not been selected yet.
+          currentDate = dateTimeManager.displayCurrentTime(
+            dateTimePicker,
+            subHours(currentDate, 12),
+          );
+          console.log("Subtracted");
+        } else if (!isSelected) {
+          // Adds when PM is picked, and has not been selected yet.
+          currentDate = dateTimeManager.displayCurrentTime(
+            dateTimePicker,
+            addHours(currentDate, 12),
+          );
+          console.log("Added");
+        }
+        // The if-else is not ran when the state already contains "selected" class.
+        return;
+      });
     });
 
     ["click", "keyup"].forEach((listen) => {
