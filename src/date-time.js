@@ -14,6 +14,8 @@ import {
   getMinutes,
   addHours,
   subHours,
+  subMinutes,
+  addMinutes,
 } from "date-fns";
 import { default as createDOM } from "./createDOM.js";
 
@@ -95,6 +97,14 @@ const dateTimeManager = (() => {
 
   const getNextHour = (currentDate) => {
     return addHours(currentDate, 1);
+  };
+
+  const getPreviousMinute = (currentDate) => {
+    return subMinutes(currentDate, 1);
+  };
+
+  const getNextMinute = (currentDate) => {
+    return addMinutes(currentDate, 1);
   };
 
   const displayCurrentTime = (dateTimePicker, currentDate) => {
@@ -248,6 +258,8 @@ const dateTimeManager = (() => {
     displayCurrentTime,
     getPreviousHour,
     getNextHour,
+    getPreviousMinute,
+    getNextMinute,
   };
 })();
 
@@ -275,6 +287,12 @@ const activateDateTimePicker = () => {
     const hoursArrowUp = dateTimePicker.querySelector(
       ".time .arrows.next-hour",
     );
+    const minutesArrowDown = dateTimePicker.querySelector(
+      ".time .arrows.prev-minute",
+    );
+    const minutesArrowUp = dateTimePicker.querySelector(
+      ".time .arrows.next-minute",
+    );
 
     monthLeftArrow.addEventListener("click", (event) => {
       currentDate = dateTimeManager.displayCurrentMonthYear(
@@ -293,14 +311,28 @@ const activateDateTimePicker = () => {
     hoursArrowDown.addEventListener("click", (event) => {
       currentDate = dateTimeManager.displayCurrentTime(
         dateTimePicker,
-        dateTimeManager.getNextHour(currentDate),
+        dateTimeManager.getPreviousHour(currentDate),
       );
     });
 
     hoursArrowUp.addEventListener("click", (event) => {
       currentDate = dateTimeManager.displayCurrentTime(
         dateTimePicker,
-        dateTimeManager.getPreviousHour(currentDate),
+        dateTimeManager.getNextHour(currentDate),
+      );
+    });
+
+    minutesArrowDown.addEventListener("click", (event) => {
+      currentDate = dateTimeManager.displayCurrentTime(
+        dateTimePicker,
+        dateTimeManager.getPreviousMinute(currentDate),
+      );
+    });
+
+    minutesArrowUp.addEventListener("click", (event) => {
+      currentDate = dateTimeManager.displayCurrentTime(
+        dateTimePicker,
+        dateTimeManager.getNextMinute(currentDate),
       );
     });
 
