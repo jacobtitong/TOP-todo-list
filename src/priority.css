@@ -101,3 +101,19 @@
 .priority-select:hover {
   background-color: var(--primary-red-transparent);
 }
+
+.priority-select:has(> .value.priority-1) {
+  border-color: var(--red);
+}
+
+.priority-select:has(> .value.priority-2) {
+  border-color: var(--orange);
+}
+
+.priority-select:has(> .value.priority-3) {
+  border-color: var(--blue);
+}
+
+.priority-select:has(> .value.priority-4) {
+  border-color: var(--divider-clr);
+}

@@ -7,7 +7,7 @@ import "./priority.js";
 import "./due-date.css";
 import "./date-time.css";
 import { default as activateDateTimePicker } from "./date-time.js";
-import { default as activateSelect } from "./select.js";
+import { default as activatePrioritySelect } from "./priority-select.js";
 import { default as renderMainContent } from "./main-content.js";
 import "./addTask.js";
 import "./display-tasks.js";
@@ -19,5 +19,5 @@ import { default as categoryManager } from "./category-manager.js";
 const dialog = document.querySelector("dialog");
 dialog.showModal();
 
-activateSelect();
+activatePrioritySelect();
 activateDateTimePicker();

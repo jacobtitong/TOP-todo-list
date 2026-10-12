@@ -43,9 +43,30 @@ const selectManager = (() => {
 
     optionList[index].setAttribute("aria-selected", "true");
 
+    /* FOR PRIORITY SELECT ONLY */
+    //
+    const priorityClass = optionList[index]
+      .getAttribute("class")
+      .split(" ")
+      .filter((cls) => cls.includes("priority"));
+    //
+    /* FOR PRIORITY SELECT ONLY */
+
     nativeWidget.selectedIndex = index;
 
     value.textContent = "";
+
+    /* FOR PRIORITY SELECT ONLY */
+    //
+    value.classList.remove(
+      "priority-1",
+      "priority-2",
+      "priority-3",
+      "priority-4",
+    );
+    value.classList.add(priorityClass);
+    //
+    /* FOR PRIORITY SELECT ONLY */
 
     childNodes.forEach((child) => {
       const clone = child.cloneNode(true);
