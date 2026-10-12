@@ -22,6 +22,15 @@ import { default as createDOM } from "./createDOM.js";
 const dateTimeManager = (() => {
   let chosenDate;
 
+  const displayChosenDate = (dateTimePicker) => {
+    const value = dateTimePicker.querySelector(".value");
+    if (chosenDate) {
+      value.textContent = format(chosenDate, "MMM d, yyyy | K:mm a");
+      return;
+    }
+    value.textContent = "No Date";
+  };
+
   const deactivateDateTimePicker = (dateTimePicker) => {
     if (!dateTimePicker.classList.contains("active")) return;
 
@@ -73,10 +82,6 @@ const dateTimeManager = (() => {
   const updateChosenDate = (currentDate, selectedDay) => {
     currentDate.setDate(selectedDay);
     chosenDate = currentDate;
-  };
-
-  const getChosenDate = () => {
-    return chosenDate;
   };
 
   const getPreviousMonth = (currentDate) => {
@@ -269,7 +274,8 @@ const dateTimeManager = (() => {
     getPreviousMinute,
     getNextMinute,
     updateChosenTime,
-    getChosenDate,
+    displayChosenDate,
+    clearDate,
   };
 })();
 
@@ -307,6 +313,7 @@ const activateDateTimePicker = () => {
     );
     const stateContainer = dateTimePicker.querySelector(".time .state");
     const states = stateContainer.querySelectorAll("div");
+    const clearButton = dateTimePicker.querySelector(".clear");
 
     // Helper function to sync time changes with calendar re-renders if midnight is crossed
     const handleTimeChange = (newDate) => {
@@ -368,6 +375,10 @@ const activateDateTimePicker = () => {
       });
     });
 
+    clearButton.addEventListener("click", (event) => {
+      dateTimeManager.clearDate(dateTimePicker, currentDate);
+    });
+
     ["click", "keyup"].forEach((listen) => {
       dateTimePicker.addEventListener(listen, (event) => {
         if (
@@ -377,6 +388,7 @@ const activateDateTimePicker = () => {
           if (!dateTime.classList.contains("hidden")) {
             // Hides date-time container
             dateTimeManager.toggleDateTime(dateTimePicker);
+            dateTimeManager.displayChosenDate(dateTimePicker);
             return;
           }
           if (
@@ -410,11 +422,13 @@ const activateDateTimePicker = () => {
 
     dateTimePicker.addEventListener("blur", (event) => {
       dateTimeManager.deactivateDateTimePicker(dateTimePicker);
+      dateTimeManager.displayChosenDate(dateTimePicker);
     });
 
     dateTimePicker.addEventListener("keyup", (event) => {
       if (event.key === "Escape") {
         dateTimeManager.deactivateDateTimePicker(dateTimePicker);
+        dateTimeManager.displayChosenDate(dateTimePicker);
       }
     });
   });
