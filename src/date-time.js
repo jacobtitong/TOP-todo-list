@@ -31,6 +31,10 @@ const dateTimeManager = (() => {
     value.textContent = "No Date";
   };
 
+  const clearDate = () => {
+    chosenDate = undefined;
+  };
+
   const deactivateDateTimePicker = (dateTimePicker) => {
     if (!dateTimePicker.classList.contains("active")) return;
 
@@ -376,7 +380,9 @@ const activateDateTimePicker = () => {
     });
 
     clearButton.addEventListener("click", (event) => {
-      dateTimeManager.clearDate(dateTimePicker, currentDate);
+      dateTimeManager.deactivateDateTimePicker(dateTimePicker);
+      dateTimeManager.clearDate();
+      dateTimeManager.displayChosenDate(dateTimePicker);
     });
 
     ["click", "keyup"].forEach((listen) => {
@@ -388,6 +394,7 @@ const activateDateTimePicker = () => {
           if (!dateTime.classList.contains("hidden")) {
             // Hides date-time container
             dateTimeManager.toggleDateTime(dateTimePicker);
+            dateTimeManager.deactivateDateTimePicker(dateTimePicker);
             dateTimeManager.displayChosenDate(dateTimePicker);
             return;
           }
@@ -409,6 +416,10 @@ const activateDateTimePicker = () => {
             dateTimeManager.displayCurrentTime(dateTimePicker, currentDate);
 
             // Shows date-time container
+            dateTimeManager.activeDateTimePicker(
+              dateTimePicker,
+              dateTimePickerList,
+            );
             dateTimeManager.toggleDateTime(dateTimePicker);
           }
         }
