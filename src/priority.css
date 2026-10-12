@@ -103,17 +103,29 @@
 }
 
 .priority-select:has(> .value.priority-1) {
+  .value {
+    color: var(--red);
+  }
   border-color: var(--red);
 }
 
 .priority-select:has(> .value.priority-2) {
+  .value {
+    color: var(--orange);
+  }
   border-color: var(--orange);
 }
 
 .priority-select:has(> .value.priority-3) {
+  .value {
+    color: var(--blue);
+  }
   border-color: var(--blue);
 }
 
 .priority-select:has(> .value.priority-4) {
+  .value {
+    color: var(--secondary-txt);
+  }
   border-color: var(--divider-clr);
 }

@@ -28,6 +28,8 @@
     display: flex;
     align-items: center;
     gap: 0.5em;
+
+    color: var(--secondary-txt);
   }
 
   .date-time {
