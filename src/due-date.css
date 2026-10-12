@@ -178,3 +178,10 @@
 .date-time-picker:hover {
   background-color: var(--primary-red-transparent);
 }
+
+.date-time-picker:has(> .value.defined) {
+  .value {
+    color: var(--green);
+  }
+  border-color: var(--green);
+}

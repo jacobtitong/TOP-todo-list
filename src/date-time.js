@@ -24,7 +24,9 @@ const dateTimeManager = (() => {
 
   const displayChosenDate = (dateTimePicker) => {
     const value = dateTimePicker.querySelector(".value");
+    value.classList.remove("defined");
     if (chosenDate) {
+      value.classList.add("defined");
       value.textContent = format(chosenDate, "MMM d, yyyy | K:mm a");
       return;
     }
