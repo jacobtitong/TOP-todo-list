@@ -19,88 +19,91 @@
             ><input type="text" placeholder="Description" id="description"
           /></label>
         </div>
-        <div>
+        
           <div class="additional-contents">
             <div>
-              <label for="due-date"
-                ><input type="datetime-local" id="due-date"
-              /></label>
-              <div class="date-time-picker" tabindex="0">
-                <div class="value">No Date</div>
+              <div>
+                <label for="due-date"
+                  ><input type="datetime-local" id="due-date"
+                /></label>
+                <div class="date-time-picker" tabindex="0">
+                  <div class="value">No Date</div>
 
-                <div class="date-time hidden">
-                  <div class="dates">
-                    <div class="month-tab">
-                      <div class="arrows prev-month">&lt;</div>
-                      <div class="month">October 2026</div>
-                      <div class="arrows next-month">&gt;</div>
+                  <div class="date-time hidden">
+                    <div class="dates">
+                      <div class="month-tab">
+                        <div class="arrows prev-month">&lt;</div>
+                        <div class="month">October 2026</div>
+                        <div class="arrows next-month">&gt;</div>
+                      </div>
+                      <div class="days">
+                        <div class="day">M</div>
+                        <div class="day">T</div>
+                        <div class="day">W</div>
+                        <div class="day">T</div>
+                        <div class="day">F</div>
+                        <div class="day">S</div>
+                        <div class="day">S</div>
+                        
+                      </div>
                     </div>
-                    <div class="days">
-                      <div class="day">M</div>
-                      <div class="day">T</div>
-                      <div class="day">W</div>
-                      <div class="day">T</div>
-                      <div class="day">F</div>
-                      <div class="day">S</div>
-                      <div class="day">S</div>
-                      
+                    <div class="time">
+                      <div class="hours">
+                        <div class="arrows next-hour">&lt;</div>
+                        <div class="hour">9</div>
+                        <div class="arrows prev-hour">&gt;</div>
+                      </div>
+                      <div class="colon">&#58</div>
+                      <div class="minutes">
+                        <div class="arrows next-minute">&lt;</div>
+                        <div class="minute">54</div>
+                        <div class="arrows prev-minute">&gt;</div>
+                      </div>
+                      <div class="state">
+                        <div class="selected">AM</div>
+                        <div>PM</div>
+                      </div>
                     </div>
+                    <div class="clear">X</div>
                   </div>
-                  <div class="time">
-                    <div class="hours">
-                      <div class="arrows next-hour">&lt;</div>
-                      <div class="hour">9</div>
-                      <div class="arrows prev-hour">&gt;</div>
-                    </div>
-                    <div class="colon">&#58</div>
-                    <div class="minutes">
-                      <div class="arrows next-minute">&lt;</div>
-                      <div class="minute">54</div>
-                      <div class="arrows prev-minute">&gt;</div>
-                    </div>
-                    <div class="state">
-                      <div class="selected">AM</div>
-                      <div>PM</div>
-                    </div>
-                  </div>
-                  <div class="clear">X</div>
+                  
                 </div>
-                
               </div>
-            </div>
-            <div>
-              <select name="priority" tabindex="0">
-                <option value="1">Priority 1</option>
-                <option value="2">Priority 2</option>
-                <option value="3">Priority 3</option>
-                <option value="4" selected>Priority 4</option>
-              </select>
+              <div>
+                <select name="priority" tabindex="0">
+                  <option value="1">Priority 1</option>
+                  <option value="2">Priority 2</option>
+                  <option value="3">Priority 3</option>
+                  <option value="4" selected>Priority 4</option>
+                </select>
 
-              <div class="select priority-select" role="listbox">
-                <span class="value">Priority 4</span>
-                <ul class="optList hidden" role="presentation">
-                  <li class="option priority-1" role="option">Priority 1</li>
-                  <li class="option priority-2" role="option">Priority 2</li>
-                  <li class="option priority-3" role="option">Priority 3</li>
-                  <li
-                    class="option priority-4"
-                    role="option"
-                    aria-selected="true"
-                  >
-                    Priority 4
-                  </li>
-                </ul>
+                <div class="select priority-select" role="listbox">
+                  <span class="value">Priority 4</span>
+                  <ul class="optList hidden" role="presentation">
+                    <li class="option priority-1" role="option">Priority 1</li>
+                    <li class="option priority-2" role="option">Priority 2</li>
+                    <li class="option priority-3" role="option">Priority 3</li>
+                    <li
+                      class="option priority-4"
+                      role="option"
+                      aria-selected="true"
+                    >
+                      Priority 4
+                    </li>
+                  </ul>
+                </div>
               </div>
+              <select name="projects">
+                <option value="inbox">inbox</option>
+              </select>
             </div>
-            <select name="projects">
-              <option value="inbox">inbox</option>
-            </select>
+
+            <div class="actions">
+              <button>Cancel</button>
+              <button>Add Task</button>
+            </div>
           </div>
-          <div class="actions">
-            <button>Cancel</button>
-            <button>Add Task</button>
-          </div>
-        </div>
+        
       </form>
     </dialog>
   </body>
