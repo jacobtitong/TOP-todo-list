@@ -9,6 +9,7 @@ dialog {
   border: 1px solid var(--divider-clr);
   background-color: var(--primary-bg);
   width: 50vw;
+  min-width: 600px;
   max-width: 750px;
   height: max-content;
   overflow: visible;
