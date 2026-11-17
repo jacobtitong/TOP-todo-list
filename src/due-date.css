@@ -33,6 +33,10 @@
   }
 
   .date-time {
+    .clear {
+      cursor: pointer;
+    }
+
     cursor: default;
     z-index: 2;
     display: flex;
