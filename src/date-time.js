@@ -63,16 +63,16 @@ const dateTimeManager = (() => {
     day.classList.remove("selected");
   };
 
-  const selectDay = (days, day, currentDate, index) => {
+  const selectDay = (dateTimeInput, days, day, currentDate, index) => {
     if (day.classList.contains("selected")) return;
 
     days.forEach(unselectDay);
     day.classList.add("selected");
 
-    updateChosenDate(currentDate, index);
+    updateChosenDate(currentDate, dateTimeInput, index);
   };
 
-  const allowSelection = (dateTimePicker, currentDate) => {
+  const allowSelection = (dateTimePicker, dateTimeInput, currentDate) => {
     // Makes each day have an event listener for being selected.
     const dayListContainer = dateTimePicker.querySelector(".days");
     const days = dayListContainer.querySelectorAll(
@@ -80,14 +80,15 @@ const dateTimeManager = (() => {
     );
     days.forEach((day, index) => {
       day.addEventListener("click", (event) => {
-        selectDay(days, day, currentDate, index + 1);
+        selectDay(dateTimeInput, days, day, currentDate, index + 1);
       });
     });
   };
 
-  const updateChosenDate = (currentDate, selectedDay) => {
+  const updateChosenDate = (currentDate, dateTimeInput, selectedDay) => {
     currentDate.setDate(selectedDay);
     chosenDate = currentDate;
+    dateTimeInput.value = `${format(chosenDate, "yyyy-MM-dd")}T${format(chosenDate, "HH:mm")}`;
   };
 
   const getPreviousMonth = (currentDate) => {
@@ -98,13 +99,14 @@ const dateTimeManager = (() => {
     return addMonths(currentDate, 1);
   };
 
-  const updateChosenTime = (currentDate) => {
+  const updateChosenTime = (currentDate, dateTimeInput) => {
     chosenDate = set(currentDate, {
       hours: getHours(currentDate),
       minutes: getMinutes(currentDate),
     });
     // Use .getTime() because setTime expects numerical milliseconds
     currentDate.setTime(chosenDate.getTime());
+    dateTimeInput.value = `${format(chosenDate, "yyyy-MM-dd")}T${format(chosenDate, "HH:mm")}`;
   };
 
   const getPreviousHour = (currentDate) => {
@@ -123,7 +125,7 @@ const dateTimeManager = (() => {
     return addMinutes(currentDate, 1);
   };
 
-  const displayCurrentTime = (dateTimePicker, currentDate) => {
+  const displayCurrentTime = (dateTimePicker, dateTimeInput, currentDate) => {
     const timeContainer = dateTimePicker.querySelector(".time");
     const hour = timeContainer.querySelector(".hour");
     const minute = timeContainer.querySelector(".minute");
@@ -159,7 +161,7 @@ const dateTimeManager = (() => {
 
     selectState(stateContainer, state);
 
-    updateChosenTime(currentDate);
+    updateChosenTime(currentDate, dateTimeInput);
 
     return currentDate;
   };
@@ -178,7 +180,11 @@ const dateTimeManager = (() => {
     });
   };
 
-  const displayCurrentMonthYear = (dateTimePicker, currentDate) => {
+  const displayCurrentMonthYear = (
+    dateTimePicker,
+    dateTimeInput,
+    currentDate,
+  ) => {
     const monthYear = dateTimePicker.querySelector(".dates .month");
     monthYear.textContent = format(currentDate, "MMMM yyyy");
 
@@ -187,7 +193,7 @@ const dateTimeManager = (() => {
 
     populateDays(dateTimePicker, currentDate);
 
-    allowSelection(dateTimePicker, currentDate);
+    allowSelection(dateTimePicker, dateTimeInput, currentDate);
 
     // It remembers to select the chosen date so that, even if the user navigates to a different monthYear, the chosenDate will always be selected in the appropriate monthYear tab.
     if (isSameDay(currentDate, chosenDate)) {
@@ -197,6 +203,7 @@ const dateTimeManager = (() => {
       );
 
       selectDay(
+        dateTimeInput,
         days,
         days[getDate(chosenDate) - 1],
         chosenDate,
@@ -296,6 +303,10 @@ const activateDateTimePicker = () => {
   const dateTimePickerList = document.querySelectorAll(".date-time-picker");
 
   dateTimePickerList.forEach((dateTimePicker) => {
+    const dateTimeInput = dateTimePicker.querySelector(
+      'label[for="due-date"] input',
+    );
+
     let currentDate;
     const dateTime = dateTimePicker.querySelector(".date-time");
     const dateTimePickerValue = dateTimePicker.querySelector(".value");
@@ -325,18 +336,31 @@ const activateDateTimePicker = () => {
     const handleTimeChange = (newDate) => {
       const dayChanged = !isSameDay(currentDate, newDate);
 
-      currentDate = dateTimeManager.displayCurrentTime(dateTimePicker, newDate);
+      currentDate = dateTimeManager.displayCurrentTime(
+        dateTimePicker,
+        dateTimeInput,
+        newDate,
+      );
 
       // If adding/subtracting time crosses into a new day or month, re-render the calendar
       if (dayChanged) {
-        dateTimeManager.updateChosenDate(currentDate, getDate(currentDate));
-        dateTimeManager.displayCurrentMonthYear(dateTimePicker, currentDate);
+        dateTimeManager.updateChosenDate(
+          currentDate,
+          dateTimeInput,
+          getDate(currentDate),
+        );
+        dateTimeManager.displayCurrentMonthYear(
+          dateTimePicker,
+          dateTimeInput,
+          currentDate,
+        );
       }
     };
 
     monthLeftArrow.addEventListener("click", (event) => {
       currentDate = dateTimeManager.displayCurrentMonthYear(
         dateTimePicker,
+        dateTimeInput,
         dateTimeManager.getPreviousMonth(currentDate),
       );
     });
@@ -344,6 +368,7 @@ const activateDateTimePicker = () => {
     monthRightArrow.addEventListener("click", (event) => {
       currentDate = dateTimeManager.displayCurrentMonthYear(
         dateTimePicker,
+        dateTimeInput,
         dateTimeManager.getNextMonth(currentDate),
       );
     });
@@ -410,12 +435,21 @@ const activateDateTimePicker = () => {
               currentDate = new Date();
             }
 
-            dateTimeManager.updateChosenDate(currentDate, getDate(currentDate)); // Updates chosen date to today's date.
+            dateTimeManager.updateChosenDate(
+              currentDate,
+              dateTimeInput,
+              getDate(currentDate),
+            ); // Updates chosen date to today's date.
             dateTimeManager.displayCurrentMonthYear(
               dateTimePicker,
+              dateTimeInput,
               currentDate,
             );
-            dateTimeManager.displayCurrentTime(dateTimePicker, currentDate);
+            dateTimeManager.displayCurrentTime(
+              dateTimePicker,
+              dateTimeInput,
+              currentDate,
+            );
 
             // Shows date-time container
             dateTimeManager.activeDateTimePicker(

@@ -12,6 +12,7 @@ import { default as activateDateTimePicker } from "./date-time.js";
 import { default as activatePrioritySelect } from "./priority-select.js";
 import { default as activateCategorySelect } from "./category-select.js";
 import { default as renderMainContent } from "./main-content.js";
+import "./add-task-button.js";
 import "./addTask.js";
 import "./display-tasks.js";
 import "./show-side-bar.js";

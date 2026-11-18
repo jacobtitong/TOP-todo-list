@@ -13,20 +13,23 @@
       <form class="add-task-container no-widget">
         <div class="contents">
           <label for="task-name"
-            ><input type="text" placeholder="Task name" id="task-name"
+            ><input type="text" placeholder="Task name" id="task-name" name="title"
           /></label>
           <label for="description"
-            ><input type="text" placeholder="Description" id="description"
+            ><input type="text" placeholder="Description" id="description" name="description"
           /></label>
         </div>
         
           <div class="additional-contents">
+            
             <div>
               <div>
-                <label for="due-date"
-                  ><input type="datetime-local" id="due-date"
-                /></label>
+                
+              
                 <div class="date-time-picker" tabindex="0">
+                  <label for="due-date"
+                  ><input type="datetime-local" id="due-date" name="due-date"
+                  /></label>
                   <div class="value">No Date</div>
 
                   <div class="date-time hidden">
