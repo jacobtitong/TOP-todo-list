@@ -4,10 +4,13 @@ import "./add-task-dialog.css";
 import "./select.css";
 import "./priority.css";
 import "./priority.js";
+import "./category.css";
+import "./category-input.js";
 import "./due-date.css";
 import "./date-time.css";
 import { default as activateDateTimePicker } from "./date-time.js";
 import { default as activatePrioritySelect } from "./priority-select.js";
+import { default as activateCategorySelect } from "./category-select.js";
 import { default as renderMainContent } from "./main-content.js";
 import "./addTask.js";
 import "./display-tasks.js";
@@ -21,3 +24,4 @@ dialog.showModal();
 
 activatePrioritySelect();
 activateDateTimePicker();
+activateCategorySelect();

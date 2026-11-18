@@ -93,9 +93,24 @@
                   </ul>
                 </div>
               </div>
-              <select name="projects">
-                <option value="inbox">inbox</option>
-              </select>
+              <div>
+                <select name="category" tabindex="0">
+                  <option value="inbox" selected>Inbox</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </select>
+
+                <div class="select category-select" role="listbox">
+                  <span class="value">Inbox</span>
+                  <ul class="optList hidden" role="presentation">
+                    <li class="option inbox" role="option" aria-selected="true">Inbox</li>
+                    <li class="option" role="option">2</li>
+                    <li class="option" role="option">3</li>
+                    <li class="option" role="option">4</li>
+                  </ul>
+                </div>
+              </div>
             </div>
 
             <div class="actions">

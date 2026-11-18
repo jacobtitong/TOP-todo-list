@@ -98,7 +98,7 @@ const activateSelect = () => {
   form.classList.remove("no-widget");
   form.classList.add("widget");
 
-  const selectList = document.querySelectorAll(".select");
+  const selectList = document.querySelectorAll(".priority-select");
 
   selectList.forEach((select) => {
     const optionList = select.querySelectorAll(".option");
