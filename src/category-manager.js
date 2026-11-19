@@ -14,7 +14,13 @@ const categoryManager = (() => {
     globalScopeCategories.addItem(category);
   };
 
-  return { createCategory, deleteCategory, insertCategory };
+  const showAllCategories = () => {
+    return globalScopeCategories.library;
+  };
+
+  insertCategory(createCategory({ name: "Inbox", color: "gray" }));
+
+  return { createCategory, deleteCategory, insertCategory, showAllCategories };
 })();
 
 export default categoryManager;

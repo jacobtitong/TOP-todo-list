@@ -6,6 +6,7 @@ import { default as activatePrioritySelect } from "./priority-select.js";
 import { default as activateCategorySelect } from "./category-select.js";
 import { default as renderPriorityFlags } from "./priority.js";
 import { default as renderCategoryHash } from "./category-input.js";
+import { default as categoryManager } from "./category-manager.js";
 
 let dialog;
 
@@ -203,29 +204,62 @@ const renderDialog = () => {
   );
 
   // Category select
-  const categoryOptions = [
-    createDOM("option", { value: "inbox", selected: "" }, "Inbox"),
-    createDOM("option", { value: "2" }, "2"),
-    createDOM("option", { value: "3" }, "3"),
-    createDOM("option", { value: "4" }, "4"),
-  ];
+  const categoryOptions = [];
+
+  const allCategories = categoryManager.showAllCategories();
+
+  const inboxCategory = allCategories[0];
+
+  for (const category of allCategories) {
+    if (category.id === inboxCategory.id) {
+      categoryOptions.push(
+        createDOM(
+          "option",
+          { value: category.id, selected: "" },
+          category.name,
+        ),
+      );
+      continue;
+    }
+    categoryOptions.push(
+      createDOM("option", { value: category.id }, category.name),
+    );
+  }
+
   const selectCategory = createDOM(
     "select",
     { name: "category", tabindex: "0" },
     ...categoryOptions,
   );
 
-  const spanCategoryValue = createDOM("span", { class: "value" }, "Inbox");
-  const categoryListItems = [
-    createDOM(
-      "li",
-      { class: "option inbox", role: "option", "aria-selected": "true" },
-      "Inbox",
-    ),
-    createDOM("li", { class: "option", role: "option" }, "2"),
-    createDOM("li", { class: "option", role: "option" }, "3"),
-    createDOM("li", { class: "option", role: "option" }, "4"),
-  ];
+  const spanCategoryValue = createDOM(
+    "span",
+    { class: "value" },
+    inboxCategory.name,
+  );
+
+  const categoryListItems = [];
+
+  for (const option of categoryOptions) {
+    if (option.value === inboxCategory.id) {
+      categoryListItems.push(
+        createDOM(
+          "li",
+          { class: "option inbox", role: "option", "aria-selected": "true" },
+          `${option.textContent}`,
+        ),
+      );
+      continue;
+    }
+    categoryListItems.push(
+      createDOM(
+        "li",
+        { class: "option", role: "option" },
+        `${option.textContent}`,
+      ),
+    );
+  }
+
   const ulCategoryList = createDOM(
     "ul",
     { class: "optList hidden", role: "presentation" },
