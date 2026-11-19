@@ -20,6 +20,13 @@ const allowAddTask = () => {
     activateCategorySelect();
     allowAddTaskButton();
     allowCancelAddTaskButton();
+
+    ["click", "cancel", "keyup"].forEach((event) => {
+      dialog.addEventListener(event, (e) => {
+        if (event === "cancel") e.preventDefault();
+        if (e.target === e.currentTarget || e.key === "Escape") dialog.remove();
+      });
+    });
   }
 
   addTaskButton.removeEventListener("click", showDialog);
