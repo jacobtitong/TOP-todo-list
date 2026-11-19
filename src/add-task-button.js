@@ -1,9 +1,20 @@
-const form = document.querySelector(".add-task-container");
+import { dialog } from "./add-task-dialog.js";
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
+export default function allowAddTaskButton() {
+  const form = document.querySelector(".add-task-container");
 
-  const formData = new FormData(form);
+  function gatherFormData(e) {
+    e.preventDefault();
 
-  console.log(Object.fromEntries(formData));
-});
+    const formData = new FormData(form);
+
+    console.log(Object.fromEntries(formData));
+
+    dialog.close();
+    dialog.remove();
+  }
+
+  form.removeEventListener("submit", (e) => gatherFormData(e));
+
+  form.addEventListener("submit", (e) => gatherFormData(e));
+}

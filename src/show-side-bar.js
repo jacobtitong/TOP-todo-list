@@ -1,5 +1,6 @@
 import { default as renderTop } from "./top.js";
 import { default as renderSideBar } from "./side-bar.js";
+import { allowAddTask } from "./add-task-dialog.js";
 
 const topElements = renderTop;
 const sideBarSVG1 = topElements.DOMSideBarSVG;
@@ -21,4 +22,6 @@ sideBarSVG1.addEventListener("click", (e) => {
     sideBarContainer.textContent = "";
     sideBarSVG1.setAttribute("style", "display");
   });
+
+  allowAddTask();
 });

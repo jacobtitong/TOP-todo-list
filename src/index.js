@@ -8,21 +8,10 @@ import "./category.css";
 import "./category-input.js";
 import "./due-date.css";
 import "./date-time.css";
-import { default as activateDateTimePicker } from "./date-time.js";
-import { default as activatePrioritySelect } from "./priority-select.js";
-import { default as activateCategorySelect } from "./category-select.js";
 import { default as renderMainContent } from "./main-content.js";
-import "./add-task-button.js";
 import "./addTask.js";
 import "./display-tasks.js";
 import "./show-side-bar.js";
 import { globalScopeTasks, globalScopeCategories } from "./library.js";
 import { default as taskManager } from "./task-manager.js";
 import { default as categoryManager } from "./category-manager.js";
-
-const dialog = document.querySelector("dialog");
-dialog.showModal();
-
-activatePrioritySelect();
-activateDateTimePicker();
-activateCategorySelect();
