@@ -68,7 +68,7 @@ const renderDialog = () => {
   const inputDueDate = createDOM("input", {
     type: "datetime-local",
     id: "due-date",
-    name: "due-date",
+    name: "dueDate",
   });
   const labelDueDate = createDOM("label", { for: "due-date" }, inputDueDate);
   const divDateValue = createDOM("div", { class: "value" }, "No Date");

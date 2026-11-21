@@ -27,7 +27,7 @@ class Category {
     return this.#id;
   }
 
-  get tasks() {
+  get tasksList() {
     return this.#tasksList;
   }
 }
