@@ -78,6 +78,7 @@ nav.side-bar {
   display: flex;
   flex-direction: column;
   gap: 4px;
+
   .top {
     color: var(--secondary-txt);
     font-family: "inter-bold";
@@ -90,6 +91,54 @@ nav.side-bar {
         cursor: pointer;
         path {
           stroke: var(--secondary-txt);
+        }
+      }
+    }
+  }
+
+  .add-project-form {
+    padding: 6px 16px;
+    label[for="project-name"] {
+      font-size: 1rem;
+      font-family: "inter-regular";
+      display: flex;
+      background: none;
+      border-radius: var(--normal);
+      overflow: hidden;
+      color: var(--primary-txt);
+
+      input {
+        background-color: var(--project-tab-bg);
+        border: 1px solid #00000000;
+        padding: 4px;
+        border-radius: inherit;
+        color: inherit;
+      }
+
+      input:focus {
+        border-color: var(--primary-txt);
+        outline: none;
+      }
+
+      .action-buttons {
+        display: flex;
+        align-items: center;
+
+        svg {
+          height: 100%;
+        }
+
+        svg,
+        svg * {
+          cursor: pointer;
+        }
+
+        svg.close-icon {
+          background-color: var(--hover-bg);
+        }
+
+        svg.check-icon {
+          background-color: var(--primary-red);
         }
       }
     }

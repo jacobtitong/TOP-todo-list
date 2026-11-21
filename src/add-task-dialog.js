@@ -10,8 +10,8 @@ import { default as categoryManager } from "./category-manager.js";
 
 let dialog;
 
-const allowAddTask = () => {
-  const addTaskButton = document.querySelector(".add-task");
+const allowAddTask = (sideBarContainer) => {
+  const addTaskButton = sideBarContainer.querySelector(".add-task");
 
   function showDialog() {
     dialog = renderDialog();

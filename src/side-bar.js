@@ -49,10 +49,14 @@ const renderSideBar = () => {
 
   const projectItem = [];
 
-  for (let i = 0; i < 4; i++) {
+  const createdCategories = allCategories.filter(
+    (category) => category !== inboxCategory,
+  );
+
+  createdCategories.forEach((category) => {
     const item = [];
 
-    const projectNameSpan = createDOM("span", {}, "Personal");
+    const projectNameSpan = createDOM("span", {}, category.name);
     const projectName = createDOM(
       "span",
       { class: "project-name" },
@@ -75,7 +79,7 @@ const renderSideBar = () => {
     item.push(count);
 
     projectItem.push(item);
-  }
+  });
 
   // Append every projectTab to the projectsList as direct children.
   const projectsList = createDOM(
@@ -157,7 +161,7 @@ const renderSideBar = () => {
 
   listenForChosenCategories(sideBarContainer);
 
-  return { sideBarContainer, topContainer, DOMSideBarSVG };
+  return { sideBarContainer, topContainer, projects, DOMSideBarSVG };
 };
 
 const listenForChosenCategories = (sideBarContainer) => {
@@ -165,11 +169,11 @@ const listenForChosenCategories = (sideBarContainer) => {
 
   allProjectTabs.forEach((project) => {
     project.addEventListener("click", (e) => {
-      // if (
-      //   e.currentTarget.dataset.id ===
-      //   mainContentElements.projectName.dataset.id
-      // )
-      //   return;
+      if (
+        e.currentTarget.dataset.id ===
+        mainContentElements.projectName.dataset.id
+      )
+        return;
       mainContentElements.taskList.textContent = "";
       mainContentElements.projectName.setAttribute(
         "data-id",
