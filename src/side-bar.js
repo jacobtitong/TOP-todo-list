@@ -6,9 +6,16 @@ import chevronDownSVG from "./assets/icons/chevron-down.svg";
 import plusCircleSVG from "./assets/icons/plus-circle.svg";
 import sideBarSVG from "./assets/icons/side-bar.svg";
 import hashSVG from "./assets/icons/hash.svg";
+import { default as categoryManager } from "./category-manager.js";
+import { default as mainContentElements } from "./main-content.js";
+import { default as displayTasks } from "./display-tasks.js";
 
 const renderSideBar = () => {
   const sideBarContainer = document.querySelector(".side-bar");
+
+  // All Categories
+  const allCategories = categoryManager.showAllCategories();
+  const inboxCategory = allCategories[0];
 
   // CREATING SIDE BAR ELEMENTS (Built bottom-up to pass children):
   // Profile Section
@@ -22,11 +29,15 @@ const renderSideBar = () => {
   const addTask = createDOM("div", { class: "add-task" }, addTaskButton);
 
   // Project Tab (Inbox) Section
-  const inboxSpan = createDOM("span", {}, "Inbox");
+  const inboxSpan = createDOM("span", {}, inboxCategory.name);
   const inbox = createDOM("span", { class: "inbox" }, inboxSpan);
   const count = createDOM("span", { class: "count" }, "22");
   const projectTabDiv = createDOM("div", {}, inbox, count);
-  const projectTab = createDOM("div", { class: "project-tab" }, projectTabDiv);
+  const projectTab = createDOM(
+    "div",
+    { class: "project-tab", "data-id": inboxCategory.id },
+    projectTabDiv,
+  );
 
   // Divider
   const hr = createDOM("hr", {});
@@ -144,7 +155,29 @@ const renderSideBar = () => {
     container.insertBefore(DOMHashSVG, container.firstChild);
   });
 
+  listenForChosenCategories(sideBarContainer);
+
   return { sideBarContainer, topContainer, DOMSideBarSVG };
+};
+
+const listenForChosenCategories = (sideBarContainer) => {
+  const allProjectTabs = sideBarContainer.querySelectorAll(".project-tab");
+
+  allProjectTabs.forEach((project) => {
+    project.addEventListener("click", (e) => {
+      // if (
+      //   e.currentTarget.dataset.id ===
+      //   mainContentElements.projectName.dataset.id
+      // )
+      //   return;
+      mainContentElements.taskList.textContent = "";
+      mainContentElements.projectName.setAttribute(
+        "data-id",
+        e.currentTarget.dataset.id,
+      );
+      displayTasks();
+    });
+  });
 };
 
 export default renderSideBar;

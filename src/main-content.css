@@ -41,7 +41,39 @@ main.content {
         border-radius: 50%;
         transition: 120ms transform ease-in-out;
         transform: scale(0);
-        box-shadow: inset 1em 1em var(--secondary-txt);
+        box-shadow: inset 1em 1em;
+      }
+
+      input[type="checkbox"][data-priority="4"] {
+        border-color: var(--secondary-txt);
+      }
+
+      input[type="checkbox"][data-priority="4"]::before {
+        color: var(--secondary-txt);
+      }
+
+      input[type="checkbox"][data-priority="3"] {
+        border-color: var(--blue);
+      }
+
+      input[type="checkbox"][data-priority="3"]::before {
+        color: var(--blue);
+      }
+
+      input[type="checkbox"][data-priority="2"] {
+        border-color: var(--orange);
+      }
+
+      input[type="checkbox"][data-priority="2"]::before {
+        color: var(--orange);
+      }
+
+      input[type="checkbox"][data-priority="1"] {
+        border-color: var(--red);
+      }
+
+      input[type="checkbox"][data-priority="1"]::before {
+        color: var(--red);
       }
 
       input[type="checkbox"]:checked::before {

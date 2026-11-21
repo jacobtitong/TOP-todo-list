@@ -1,6 +1,8 @@
 import { dialog } from "./add-task-dialog.js";
 import { default as categoryManager } from "./category-manager.js";
 import { default as taskManager } from "./task-manager.js";
+import { default as mainContentElements } from "./main-content.js";
+import { default as displayTasks } from "./display-tasks.js";
 
 const storeTaskData = (formData) => {
   const categoryID = formData.category;
@@ -12,10 +14,8 @@ const storeTaskData = (formData) => {
   console.log(chosenCategory);
 
   const task = taskManager.createTask(formData);
-  console.log(task);
-  taskManager.insertTask({ library: chosenCategory, task: task });
 
-  console.log(categoryManager.showAllCategories());
+  taskManager.insertTask({ library: chosenCategory, task });
 };
 
 export default function allowAddTaskButton() {
@@ -27,6 +27,10 @@ export default function allowAddTaskButton() {
     const formData = Object.fromEntries(new FormData(form));
 
     storeTaskData(formData);
+
+    // Re-rendering main-content task list
+    mainContentElements.taskList.textContent = "";
+    displayTasks();
 
     dialog.close();
     dialog.remove();

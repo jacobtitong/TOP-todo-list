@@ -3,69 +3,92 @@ import { default as mainContentElements } from "./main-content.js";
 import { globalScopeTasks } from "./library.js";
 import calendarSVG from "./assets/icons/calendar.svg";
 import hashSVG from "./assets/icons/hash.svg";
-
-const DOMTaskList = mainContentElements.taskList;
-const TaskList = globalScopeTasks.library;
+import { default as categoryManager } from "./category-manager.js";
 
 // CREATING ELEMENTS
-TaskList.forEach((task) => {
-  const checkbox = createDOM("input", { id: task.id, type: "checkbox" });
-  const checkboxLabel = createDOM(
-    "label",
-    {
-      class: "checkbox-label",
-      for: task.id,
-    },
-    checkbox,
-  );
-  const projectLabelSpan = createDOM("span", {}, task.category);
-  const DOMHashSVG = createDOM(hashSVG, { class: "hash-icon" });
-  const projectLabel = createDOM(
-    "div",
-    {
-      class: "project-label",
-    },
-    projectLabelSpan,
-    DOMHashSVG,
-  );
-  const title = createDOM(
-    "p",
-    {
-      class: "title",
-    },
-    task.title,
-  );
-  const description = createDOM(
-    "p",
-    {
-      class: "description",
-    },
-    task.description,
-  );
-  const DOMCalendarSVG = createDOM(calendarSVG, { class: "due-date-icon" });
-  const dueDateSpan = createDOM("span", {}, task.dueDate);
+const displayTasks = () => {
+  const chosenCategory = categoryManager
+    .showAllCategories()
+    .filter(
+      (category) => category.id === mainContentElements.projectName.dataset.id,
+    )[0];
 
-  const dueDate = createDOM(
-    "div",
-    { class: "dueDate" },
-    DOMCalendarSVG,
-    dueDateSpan,
-  );
-  const taskDetails = createDOM(
-    "div",
-    { class: "task-details" },
-    title,
-    description,
-    dueDate,
-  );
-  const DOMTask = createDOM(
-    "div",
-    { class: "task" },
-    checkboxLabel,
-    taskDetails,
-    projectLabel,
-  );
+  const DOMTaskList = mainContentElements.taskList;
+  const TasksList = chosenCategory.tasksList.library;
 
-  // DISPLAYING ELEMENTS (appending only direct children)
-  DOMTaskList.appendChild(DOMTask);
-});
+  TasksList.forEach((task) => {
+    const categoryOfTask = categoryManager
+      .showAllCategories()
+      .filter((category) => category.id === task.category)[0].name;
+
+    const checkbox = createDOM("input", {
+      id: task.id,
+      type: "checkbox",
+      "data-priority": task.priority,
+    });
+    const checkboxLabel = createDOM(
+      "label",
+      {
+        class: "checkbox-label",
+        for: task.id,
+      },
+      checkbox,
+    );
+    const projectLabelSpan = createDOM("span", {}, categoryOfTask);
+    const DOMHashSVG = createDOM(hashSVG, { class: "hash-icon" });
+    const projectLabel = createDOM(
+      "div",
+      {
+        class: "project-label",
+      },
+      projectLabelSpan,
+      DOMHashSVG,
+    );
+    const title = createDOM(
+      "p",
+      {
+        class: "title",
+      },
+      task.title,
+    );
+    const description = createDOM(
+      "p",
+      {
+        class: "description",
+      },
+      task.description,
+    );
+    const DOMCalendarSVG = createDOM(calendarSVG, { class: "due-date-icon" });
+    let dateText = task.dueDate;
+    if (!task.dueDate) {
+      dateText = "No Date";
+    }
+    const dueDateSpan = createDOM("span", {}, dateText);
+
+    const dueDate = createDOM(
+      "div",
+      { class: "dueDate" },
+      DOMCalendarSVG,
+      dueDateSpan,
+    );
+    const taskDetails = createDOM(
+      "div",
+      { class: "task-details" },
+      title,
+      description,
+      dueDate,
+    );
+    const DOMTask = createDOM(
+      "div",
+      { class: "task" },
+      checkboxLabel,
+      taskDetails,
+      projectLabel,
+    );
+
+    // DISPLAYING ELEMENTS (appending only direct children)
+    DOMTaskList.appendChild(DOMTask);
+  });
+};
+
+export default displayTasks;
