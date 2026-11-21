@@ -4,6 +4,7 @@ import { globalScopeTasks } from "./library.js";
 import calendarSVG from "./assets/icons/calendar.svg";
 import hashSVG from "./assets/icons/hash.svg";
 import { default as categoryManager } from "./category-manager.js";
+import { format, parseISO } from "date-fns";
 
 // CREATING ELEMENTS
 const displayTasks = () => {
@@ -59,10 +60,12 @@ const displayTasks = () => {
       task.description,
     );
     const DOMCalendarSVG = createDOM(calendarSVG, { class: "due-date-icon" });
-    let dateText = task.dueDate;
-    if (!task.dueDate) {
-      dateText = "No Date";
+
+    let dateText = "No Date";
+    if (task.dueDate) {
+      dateText = format(parseISO(task.dueDate), "MMM dd, p");
     }
+
     const dueDateSpan = createDOM("span", {}, dateText);
 
     const dueDate = createDOM(
