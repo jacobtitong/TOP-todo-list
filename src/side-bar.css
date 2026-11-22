@@ -5,7 +5,7 @@ nav.side-bar {
   flex-direction: column;
   gap: 20px;
   padding: 20px 0;
-  width: 300px;
+  width: min-content;
   max-width: 300px;
 
   .top {
@@ -99,6 +99,7 @@ nav.side-bar {
 
   .add-project-form {
     padding: 6px 16px;
+    width: inherit;
 
     label[for="project-name"] {
       font-size: 1rem;
@@ -186,6 +187,13 @@ nav.side-bar {
     gap: 6px;
 
     .project-tab {
+      > div {
+        background: none;
+      }
+
+      > div.selected {
+        background-color: var(--project-tab-bg);
+      }
       .project-name {
         .hash-icon {
           min-width: 15px;

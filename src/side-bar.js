@@ -109,20 +109,33 @@ const renderSideBar = () => {
 
   projectsTopActionsContainer.appendChild(DOMPlusCircleSVG2);
 
-  listenForInboxCategory(sideBarContainer, inboxCategory);
+  const createdCategories = allCategories.filter(
+    (category) => category !== inboxCategory,
+  );
+
+  listenForInboxCategory(sideBarContainer, inboxCategory, createdCategories);
 
   return { sideBarContainer, topContainer, projects, DOMSideBarSVG };
 };
 
-const listenForInboxCategory = (sideBarContainer, inboxCategory) => {
+const listenForInboxCategory = (
+  sideBarContainer,
+  inboxCategory,
+  createdCategories,
+) => {
   const inboxTab = sideBarContainer.querySelector(".project-tab");
   const DOMCount = inboxTab.querySelector(".count");
+  const projects = sideBarContainer.querySelector(".projects");
 
-  const switchCategory = (e, DOMCount) => {
+  const switchCategory = (e, DOMCount, projects, createdCategories) => {
     if (
       e.currentTarget.dataset.id === mainContentElements.projectName.dataset.id
     )
       return;
+
+    const projectListTabDivs = projects.querySelectorAll(
+      ".projects-list .project-tab > div",
+    );
 
     DOMCount.textContent = inboxCategory.count;
 
@@ -130,10 +143,22 @@ const listenForInboxCategory = (sideBarContainer, inboxCategory) => {
     mainContentElements.projectName.setAttribute("data-id", inboxCategory.id);
     mainContentElements.projectName.textContent = inboxCategory.name;
     displayTasks();
+
+    projectListTabDivs.forEach((div) => {
+      div.classList.remove("selected");
+    });
+
+    createdCategories.forEach((category) => category.unselect());
+
+    // displayCategories(, true);
   };
 
-  inboxTab.removeEventListener("click", (e) => switchCategory(e, DOMCount));
-  inboxTab.addEventListener("click", (e) => switchCategory(e, DOMCount));
+  inboxTab.removeEventListener("click", (e) =>
+    switchCategory(e, DOMCount, projects, createdCategories),
+  );
+  inboxTab.addEventListener("click", (e) =>
+    switchCategory(e, DOMCount, projects, createdCategories),
+  );
 };
 
 export default renderSideBar;

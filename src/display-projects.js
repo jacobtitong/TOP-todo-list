@@ -35,6 +35,8 @@ const displayProjects = (projects, refresh) => {
     const count = createDOM("span", { class: "count" }, `${category.count}`);
 
     const projectTabDiv = createDOM("div", {}, projectName, count);
+    if (category.selection) projectTabDiv.classList.add("selected");
+
     const projectTab = createDOM(
       "div",
       { class: "project-tab", "data-id": category.id },
@@ -65,7 +67,7 @@ const displayProjects = (projects, refresh) => {
 const listenForChosenCategories = (projects, createdCategories) => {
   const allProjectTabs = projects.querySelectorAll(".project-tab");
 
-  const switchCategory = (e) => {
+  const switchCategory = (e, project, allProjectTabs, createdCategories) => {
     if (
       e.currentTarget.dataset.id === mainContentElements.projectName.dataset.id
     )
@@ -77,11 +79,24 @@ const listenForChosenCategories = (projects, createdCategories) => {
     mainContentElements.projectName.setAttribute("data-id", chosenCategory.id);
     mainContentElements.projectName.textContent = chosenCategory.name;
     displayTasks();
+    allProjectTabs.forEach((project) => {
+      project.firstChild.classList.remove("selected");
+    });
+
+    createdCategories.forEach((category) => {
+      category.unselect();
+    });
+    project.firstChild.classList.add("selected");
+    chosenCategory.select();
   };
 
   allProjectTabs.forEach((project) => {
-    project.removeEventListener("click", (e) => switchCategory(e));
-    project.addEventListener("click", (e) => switchCategory(e));
+    project.removeEventListener("click", (e) =>
+      switchCategory(e, project, allProjectTabs, createdCategories),
+    );
+    project.addEventListener("click", (e) =>
+      switchCategory(e, project, allProjectTabs, createdCategories),
+    );
   });
 };
 
