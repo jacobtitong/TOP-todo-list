@@ -5,10 +5,10 @@ import avatarWrapperSVG from "./assets/icons/avatar-wrapper.svg";
 import chevronDownSVG from "./assets/icons/chevron-down.svg";
 import plusCircleSVG from "./assets/icons/plus-circle.svg";
 import sideBarSVG from "./assets/icons/side-bar.svg";
-import hashSVG from "./assets/icons/hash.svg";
 import { default as categoryManager } from "./category-manager.js";
 import { default as mainContentElements } from "./main-content.js";
 import { default as displayTasks } from "./display-tasks.js";
+import { default as displayCategories } from "./display-projects.js";
 
 const renderSideBar = () => {
   const sideBarContainer = document.querySelector(".side-bar");
@@ -47,48 +47,9 @@ const renderSideBar = () => {
   const actions = createDOM("div", { class: "actions" });
   const top2 = createDOM("div", { class: "top" }, top2Span, actions);
 
-  const projectItem = [];
+  const projects = createDOM("div", { class: "projects" }, top2);
 
-  const createdCategories = allCategories.filter(
-    (category) => category !== inboxCategory,
-  );
-
-  createdCategories.forEach((category) => {
-    const item = [];
-
-    const projectNameSpan = createDOM("span", {}, category.name);
-    const projectName = createDOM(
-      "span",
-      { class: "project-name" },
-      projectNameSpan,
-    );
-
-    const count = createDOM("span", { class: "count" }, "5");
-
-    const projectTabDiv = createDOM("div", {}, projectName, count);
-    const projectTab = createDOM(
-      "div",
-      { class: "project-tab" },
-      projectTabDiv,
-    );
-
-    item.push(projectTab);
-    item.push(projectTabDiv);
-    item.push(projectName);
-    item.push(projectNameSpan);
-    item.push(count);
-
-    projectItem.push(item);
-  });
-
-  // Append every projectTab to the projectsList as direct children.
-  const projectsList = createDOM(
-    "div",
-    { class: "projects-list" },
-    ...projectItem.map((p) => p[0]),
-  );
-
-  const projects = createDOM("div", { class: "projects" }, top2, projectsList);
+  displayCategories(projects, false);
 
   // DISPLAYING SIDEBAR ELEMENTS (Appending only direct children):
   sideBarContainer.appendChild(top1);
@@ -147,17 +108,6 @@ const renderSideBar = () => {
   });
 
   projectsTopActionsContainer.appendChild(DOMPlusCircleSVG2);
-
-  // Hash SVG
-  const projectContainer = document.querySelectorAll(
-    ".projects-list .project-tab .project-name",
-  );
-
-  projectContainer.forEach((container) => {
-    const DOMHashSVG = createDOM(hashSVG, { class: "hash-icon" });
-
-    container.insertBefore(DOMHashSVG, container.firstChild);
-  });
 
   listenForChosenCategories(sideBarContainer);
 

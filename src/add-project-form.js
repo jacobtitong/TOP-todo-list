@@ -1,6 +1,9 @@
 import { default as createDOM } from "./createDOM.js";
 import closeSVG from "./assets/icons/close.svg";
 import checkSVG from "./assets/icons/check.svg";
+import { globalScopeCategories } from "./library.js";
+import { default as categoryManager } from "./category-manager.js";
+import { default as displayCategories } from "./display-projects.js";
 
 const createForm = (actionButtonAdd, DOMProjects) => {
   if (actionButtonAdd.classList.contains("clicked")) return;
@@ -17,7 +20,7 @@ const createForm = (actionButtonAdd, DOMProjects) => {
   );
   const inputTextForm = createDOM("input", {
     id: "project-name",
-    name: "project-name",
+    name: "name",
     type: "text",
     required: "",
   });
@@ -48,7 +51,7 @@ const createForm = (actionButtonAdd, DOMProjects) => {
 
   DOMProjects.insertBefore(formAddProject, DOMProjects.lastChild);
 
-  listenForCheck(formAddProject, actionButtonAdd);
+  listenForCheck(formAddProject, actionButtonAdd, DOMProjects);
   listenForClose(formAddProject, buttonClose, actionButtonAdd);
 };
 
@@ -61,18 +64,25 @@ const allowAddProject = (DOMProjects) => {
   );
 };
 
+const storeFormData = (formData) => {
+  categoryManager.insertCategory(categoryManager.createCategory(formData));
+};
+
 const gatherFormData = (e, form) => {
   e.preventDefault();
 
   const formData = Object.fromEntries(new FormData(form));
+  storeFormData(formData);
+
   form.remove();
 };
 
-const listenForCheck = (form, actionButtonAdd) => {
+const listenForCheck = (form, actionButtonAdd, DOMProjects) => {
   console.log("working listen");
   form.addEventListener("submit", (e) => {
     gatherFormData(e, form);
     actionButtonAdd.classList.remove("clicked");
+    displayCategories(DOMProjects, true);
   });
 };
 
