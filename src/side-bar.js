@@ -109,29 +109,27 @@ const renderSideBar = () => {
 
   projectsTopActionsContainer.appendChild(DOMPlusCircleSVG2);
 
-  listenForChosenCategories(sideBarContainer);
+  listenForInboxCategory(sideBarContainer, inboxCategory);
 
   return { sideBarContainer, topContainer, projects, DOMSideBarSVG };
 };
 
-const listenForChosenCategories = (sideBarContainer) => {
-  const allProjectTabs = sideBarContainer.querySelectorAll(".project-tab");
+const listenForInboxCategory = (sideBarContainer, inboxCategory) => {
+  const inboxTab = sideBarContainer.querySelector(".project-tab");
 
-  allProjectTabs.forEach((project) => {
-    project.addEventListener("click", (e) => {
-      if (
-        e.currentTarget.dataset.id ===
-        mainContentElements.projectName.dataset.id
-      )
-        return;
-      mainContentElements.taskList.textContent = "";
-      mainContentElements.projectName.setAttribute(
-        "data-id",
-        e.currentTarget.dataset.id,
-      );
-      displayTasks();
-    });
-  });
+  const switchCategory = (e) => {
+    if (
+      e.currentTarget.dataset.id === mainContentElements.projectName.dataset.id
+    )
+      return;
+    mainContentElements.taskList.textContent = "";
+    mainContentElements.projectName.setAttribute("data-id", inboxCategory.id);
+    mainContentElements.projectName.textContent = inboxCategory.name;
+    displayTasks();
+  };
+
+  inboxTab.removeEventListener("click", (e) => switchCategory(e));
+  inboxTab.addEventListener("click", (e) => switchCategory(e));
 };
 
 export default renderSideBar;
