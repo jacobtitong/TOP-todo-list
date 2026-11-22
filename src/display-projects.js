@@ -32,7 +32,7 @@ const displayProjects = (projects, refresh) => {
       projectNameSpan,
     );
 
-    const count = createDOM("span", { class: "count" }, "5");
+    const count = createDOM("span", { class: "count" }, `${category.count}`);
 
     const projectTabDiv = createDOM("div", {}, projectName, count);
     const projectTab = createDOM(

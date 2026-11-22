@@ -5,6 +5,7 @@ class Category {
   #color;
   #id = crypto.randomUUID();
   #tasksList = new Tasks();
+  #count = 0;
 
   constructor({ name, color }) {
     this.#name = name;
@@ -29,6 +30,18 @@ class Category {
 
   get tasksList() {
     return this.#tasksList;
+  }
+
+  get count() {
+    return this.#count;
+  }
+
+  increaseCount() {
+    this.#count++;
+  }
+
+  decreaseCount() {
+    this.#count--;
   }
 }
 

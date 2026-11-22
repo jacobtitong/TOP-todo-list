@@ -31,7 +31,7 @@ const renderSideBar = () => {
   // Project Tab (Inbox) Section
   const inboxSpan = createDOM("span", {}, inboxCategory.name);
   const inbox = createDOM("span", { class: "inbox" }, inboxSpan);
-  const count = createDOM("span", { class: "count" }, "22");
+  const count = createDOM("span", { class: "count" }, `${inboxCategory.count}`);
   const projectTabDiv = createDOM("div", {}, inbox, count);
   const projectTab = createDOM(
     "div",
@@ -116,20 +116,24 @@ const renderSideBar = () => {
 
 const listenForInboxCategory = (sideBarContainer, inboxCategory) => {
   const inboxTab = sideBarContainer.querySelector(".project-tab");
+  const DOMCount = inboxTab.querySelector(".count");
 
-  const switchCategory = (e) => {
+  const switchCategory = (e, DOMCount) => {
     if (
       e.currentTarget.dataset.id === mainContentElements.projectName.dataset.id
     )
       return;
+
+    DOMCount.textContent = inboxCategory.count;
+
     mainContentElements.taskList.textContent = "";
     mainContentElements.projectName.setAttribute("data-id", inboxCategory.id);
     mainContentElements.projectName.textContent = inboxCategory.name;
     displayTasks();
   };
 
-  inboxTab.removeEventListener("click", (e) => switchCategory(e));
-  inboxTab.addEventListener("click", (e) => switchCategory(e));
+  inboxTab.removeEventListener("click", (e) => switchCategory(e, DOMCount));
+  inboxTab.addEventListener("click", (e) => switchCategory(e, DOMCount));
 };
 
 export default renderSideBar;
