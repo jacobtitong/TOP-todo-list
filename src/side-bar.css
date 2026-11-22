@@ -5,7 +5,8 @@ nav.side-bar {
   flex-direction: column;
   gap: 20px;
   padding: 20px 0;
-  width: max-content;
+  width: 300px;
+  max-width: 300px;
 
   .top {
     min-width: 250px;
@@ -98,6 +99,7 @@ nav.side-bar {
 
   .add-project-form {
     padding: 6px 16px;
+
     label[for="project-name"] {
       font-size: 1rem;
       font-family: "inter-regular";
@@ -106,12 +108,36 @@ nav.side-bar {
       border-radius: var(--normal);
       overflow: hidden;
       color: var(--primary-txt);
+      background-color: var(--project-tab-bg);
+
+      label[for="project-color"] {
+        cursor: pointer;
+        > input {
+          -webkit-appearance: none;
+          width: 34px;
+          height: 100%;
+          border-radius: var(--normal) 0 0 var(--normal);
+          padding: 0;
+          border: none;
+          background: none;
+          cursor: pointer;
+        }
+
+        input[type="color"]::-webkit-color-swatch-wrapper {
+          padding: 0;
+        }
+
+        input[type="color"]::-webkit-color-swatch {
+          border: none;
+        }
+      }
 
       input {
+        width: 100%;
         background-color: var(--project-tab-bg);
         border: 1px solid #00000000;
         padding: 4px;
-        border-radius: inherit;
+
         color: inherit;
       }
 
@@ -124,8 +150,17 @@ nav.side-bar {
         display: flex;
         align-items: center;
 
+        button {
+          padding: 0;
+          margin: 0;
+          border: none;
+          width: 24px;
+          height: 100%;
+        }
+
         svg {
           height: 100%;
+          width: 100%;
         }
 
         svg,
