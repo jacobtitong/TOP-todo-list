@@ -38,6 +38,8 @@ export default function allowAddTaskButton() {
 
     const formData = Object.fromEntries(new FormData(form));
 
+    console.log(formData.category);
+
     storeTaskData(formData);
 
     // Re-rendering main-content task list

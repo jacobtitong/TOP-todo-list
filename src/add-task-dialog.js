@@ -210,10 +210,10 @@ const renderDialog = () => {
   const allCategories = categoryManager.showAllCategories();
 
   const inboxCategory = allCategories[0];
-  const chosenCategoryID = mainContentElements.projectName.dataset.id;
+  const initialChosenCategoryID = mainContentElements.projectName.dataset.id;
 
   for (const category of allCategories) {
-    if (category.id === chosenCategoryID) {
+    if (category.id === initialChosenCategoryID) {
       categoryOptions.push(
         createDOM(
           "option",

@@ -7,13 +7,13 @@
   padding: 0.25em 0.5em;
   width: max-content;
 
-  border: 0.2em solid var(--pink);
+  border: 0.2em solid var(--divider-clr);
   border-radius: 0.5em;
   background: none;
 
   cursor: pointer;
 
-  color: var(--pink);
+  color: var(--primary-txt);
 
   .value {
     display: inline-block;
@@ -28,10 +28,6 @@
     display: flex;
     align-items: center;
     gap: 0.5em;
-
-    svg > path {
-      stroke: var(--pink);
-    }
   }
 
   .optList {

@@ -1,3 +1,5 @@
+import { default as categoryManager } from "./category-manager.js";
+
 const selectManager = (() => {
   const deactivateSelect = (select) => {
     if (!select.classList.contains("active")) return;
@@ -53,6 +55,39 @@ const selectManager = (() => {
     /* FOR CATEGORY SELECT ONLY */
 
     nativeWidget.selectedIndex = index;
+    const allOptions = nativeWidget.querySelectorAll("option");
+    for (let i = 0; i < allOptions.length; i++) {
+      if (i === index) {
+        allOptions[i].setAttribute("selected", "");
+        continue;
+      }
+      allOptions[i].removeAttribute("selected");
+    }
+
+    /* FOR CATEGORY SELECT ONLY */
+    //
+    const getColor = (() => {
+      let chosenColor;
+      allOptions.forEach((option) => {
+        if (option.hasAttribute("selected")) {
+          const allCategories = categoryManager.showAllCategories();
+          const chosenCategory = allCategories.filter(
+            (category) => category.id === option.value,
+          )[0];
+
+          chosenColor = chosenCategory.color;
+        }
+      });
+      return chosenColor;
+    })();
+    select.style["border-color"] = getColor;
+    if (index === 0) {
+      const style = window.getComputedStyle(document.body);
+
+      select.style["border-color"] = style.getPropertyValue("--divider-clr");
+    }
+    //
+    /* FOR CATEGORY SELECT ONLY */
 
     value.textContent = "";
 
@@ -60,6 +95,17 @@ const selectManager = (() => {
       const clone = child.cloneNode(true);
       value.appendChild(clone);
     });
+
+    /* FOR CATEGORY SELECT ONLY */
+    //
+    const path = value.querySelector(".hash-icon path");
+    path.setAttribute("stroke", getColor);
+    if (index === 0) {
+      const style = window.getComputedStyle(document.body);
+      path.setAttribute("stroke", style.getPropertyValue("--secondary-txt"));
+    }
+    //
+    /* FOR CATEGORY SELECT ONLY */
 
     highlightOption(select, optionList[index]);
   };
