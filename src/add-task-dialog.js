@@ -7,6 +7,7 @@ import { default as activateCategorySelect } from "./category-select.js";
 import { default as renderPriorityFlags } from "./priority.js";
 import { default as renderCategoryHash } from "./category-input.js";
 import { default as categoryManager } from "./category-manager.js";
+import { default as mainContentElements } from "./main-content.js";
 
 let dialog;
 
@@ -209,9 +210,10 @@ const renderDialog = () => {
   const allCategories = categoryManager.showAllCategories();
 
   const inboxCategory = allCategories[0];
+  const chosenCategoryID = mainContentElements.projectName.dataset.id;
 
   for (const category of allCategories) {
-    if (category.id === inboxCategory.id) {
+    if (category.id === chosenCategoryID) {
       categoryOptions.push(
         createDOM(
           "option",
