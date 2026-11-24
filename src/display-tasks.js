@@ -6,6 +6,7 @@ import hashSVG from "./assets/icons/hash.svg";
 import { default as categoryManager } from "./category-manager.js";
 import { format, parseISO } from "date-fns";
 import { default as filter } from "./filterTasks.js";
+import { default as displayProjects } from "./display-projects.js";
 
 // CREATING ELEMENTS
 const displayTasks = () => {
@@ -103,9 +104,17 @@ const displayTasks = () => {
       task.toggle();
       if (task.complete) {
         DOMTask.classList.add("complete");
+        chosenCategory.decreaseCount();
       } else {
         DOMTask.classList.remove("complete");
+        chosenCategory.increaseCount();
       }
+      const DOMChosenCategory = document.querySelector(
+        `.project-tab[data-id="${chosenCategory.id}"]`,
+      );
+      if (DOMChosenCategory)
+        DOMChosenCategory.querySelector(".count").textContent =
+          chosenCategory.count;
       setTimeout(function () {
         DOMTaskList.textContent = "";
         displayTasks();
