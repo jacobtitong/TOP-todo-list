@@ -5,6 +5,7 @@ import calendarSVG from "./assets/icons/calendar.svg";
 import hashSVG from "./assets/icons/hash.svg";
 import { default as categoryManager } from "./category-manager.js";
 import { format, parseISO } from "date-fns";
+import { default as filter } from "./filterTasks.js";
 
 // CREATING ELEMENTS
 const displayTasks = () => {
@@ -15,9 +16,11 @@ const displayTasks = () => {
     )[0];
 
   const DOMTaskList = mainContentElements.taskList;
-  const TasksList = chosenCategory.tasksList.library;
+  const tasksList = chosenCategory.tasksList.library;
 
-  TasksList.forEach((task) => {
+  const filterCompletion = filter(tasksList, "complete", true, false);
+
+  filterCompletion().forEach((task) => {
     const categoryOfTask = categoryManager
       .showAllCategories()
       .filter((category) => category.id === task.category)[0].name;
@@ -103,9 +106,14 @@ const displayTasks = () => {
       } else {
         DOMTask.classList.remove("complete");
       }
+      setTimeout(function () {
+        DOMTaskList.textContent = "";
+        displayTasks();
+      }, 1000);
     };
 
     // Listen for checkbox
+    checkbox.removeEventListener("change", toggleCheckbox);
     checkbox.addEventListener("change", toggleCheckbox);
   });
 };
