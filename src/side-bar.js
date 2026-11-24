@@ -149,8 +149,6 @@ const listenForInboxCategory = (
     });
 
     createdCategories.forEach((category) => category.unselect());
-
-    // displayCategories(, true);
   };
 
   inboxTab.removeEventListener("click", (e) =>

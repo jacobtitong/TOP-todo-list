@@ -16,7 +16,7 @@ class Task {
     this.#title = title;
     this.#description = description;
     this.#dueDate = dueDate;
-    this.#day = format(parseISO(dueDate), "yyyy-MM-dd");
+    this.#day = dueDate ? format(parseISO(dueDate), "yyyy-MM-dd") : undefined;
     this.#priority = priority;
     this.#category = category;
   }
