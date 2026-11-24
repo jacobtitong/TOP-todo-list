@@ -1,9 +1,11 @@
 import { Tasks } from "./library.js";
+import { format, parseISO } from "date-fns";
 
 class Task {
   #title;
   #description;
   #dueDate;
+  #day;
   #priority = 4;
   #category = null;
   #complete = false;
@@ -14,6 +16,7 @@ class Task {
     this.#title = title;
     this.#description = description;
     this.#dueDate = dueDate;
+    this.#day = format(parseISO(dueDate), "yyyy-MM-dd");
     this.#priority = priority;
     this.#category = category;
   }
@@ -28,6 +31,10 @@ class Task {
 
   get dueDate() {
     return this.#dueDate;
+  }
+
+  get day() {
+    return this.#day;
   }
 
   get priority() {
