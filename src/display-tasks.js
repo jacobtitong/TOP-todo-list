@@ -27,6 +27,7 @@ const displayTasks = () => {
       type: "checkbox",
       "data-priority": task.priority,
     });
+
     const checkboxLabel = createDOM(
       "label",
       {
@@ -59,6 +60,7 @@ const displayTasks = () => {
       },
       task.description,
     );
+
     const DOMCalendarSVG = createDOM(calendarSVG, { class: "due-date-icon" });
 
     let dateText = "No Date";
@@ -89,8 +91,22 @@ const displayTasks = () => {
       projectLabel,
     );
 
+    if (task.complete) DOMTask.classList.add("complete");
+
     // DISPLAYING ELEMENTS (appending only direct children)
     DOMTaskList.appendChild(DOMTask);
+
+    const toggleCheckbox = () => {
+      task.toggle();
+      if (task.complete) {
+        DOMTask.classList.add("complete");
+      } else {
+        DOMTask.classList.remove("complete");
+      }
+    };
+
+    // Listen for checkbox
+    checkbox.addEventListener("change", toggleCheckbox);
   });
 };
 

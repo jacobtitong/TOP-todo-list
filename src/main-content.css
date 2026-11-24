@@ -128,4 +128,17 @@ main.content {
       }
     }
   }
+
+  .task.complete {
+    .title {
+      color: var(--secondary-txt);
+      text-decoration: line-through;
+    }
+    .description {
+      text-decoration: line-through;
+    }
+    input[type="checkbox"]::before {
+      transform: scale(1);
+    }
+  }
 }
