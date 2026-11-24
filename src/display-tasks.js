@@ -105,9 +105,17 @@ const displayTasks = () => {
       if (task.complete) {
         DOMTask.classList.add("complete");
         chosenCategory.decreaseCount();
+        setTimeout(function () {
+          DOMTaskList.textContent = "";
+          displayTasks();
+        }, 1000);
       } else {
         DOMTask.classList.remove("complete");
         chosenCategory.increaseCount();
+        setTimeout(function () {
+          DOMTaskList.textContent = "";
+          displayTasks();
+        }, 0);
       }
       const DOMChosenCategory = document.querySelector(
         `.project-tab[data-id="${chosenCategory.id}"]`,
@@ -115,10 +123,6 @@ const displayTasks = () => {
       if (DOMChosenCategory)
         DOMChosenCategory.querySelector(".count").textContent =
           chosenCategory.count;
-      setTimeout(function () {
-        DOMTaskList.textContent = "";
-        displayTasks();
-      }, 1000);
     };
 
     // Listen for checkbox
