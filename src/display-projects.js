@@ -61,17 +61,28 @@ const displayProjects = (projects, refresh) => {
 
   projects.appendChild(projectsList);
 
-  listenForChosenCategories(projects, createdCategories);
+  listenForChosenCategories(projects, createdCategories, inboxCategory);
 };
 
-const listenForChosenCategories = (projects, createdCategories) => {
+const listenForChosenCategories = (
+  projects,
+  createdCategories,
+  inboxCategory,
+) => {
   const allProjectTabs = projects.querySelectorAll(".project-tab");
 
-  const switchCategory = (e, project, allProjectTabs, createdCategories) => {
+  const switchCategory = (
+    e,
+    project,
+    allProjectTabs,
+    createdCategories,
+    inboxCategory,
+  ) => {
     if (
       e.currentTarget.dataset.id === mainContentElements.projectName.dataset.id
     )
       return;
+    inboxCategory.unselect();
     const chosenCategory = createdCategories.filter(
       (category) => category.id === e.currentTarget.dataset.id,
     )[0];
@@ -92,10 +103,22 @@ const listenForChosenCategories = (projects, createdCategories) => {
 
   allProjectTabs.forEach((project) => {
     project.removeEventListener("click", (e) =>
-      switchCategory(e, project, allProjectTabs, createdCategories),
+      switchCategory(
+        e,
+        project,
+        allProjectTabs,
+        createdCategories,
+        inboxCategory,
+      ),
     );
     project.addEventListener("click", (e) =>
-      switchCategory(e, project, allProjectTabs, createdCategories),
+      switchCategory(
+        e,
+        project,
+        allProjectTabs,
+        createdCategories,
+        inboxCategory,
+      ),
     );
   });
 };

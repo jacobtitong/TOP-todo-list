@@ -80,7 +80,6 @@ const gatherFormData = (e, form) => {
 };
 
 const listenForCheck = (form, actionButtonAdd, DOMProjects) => {
-  console.log("working listen");
   form.addEventListener("submit", (e) => {
     gatherFormData(e, form);
     actionButtonAdd.classList.remove("clicked");

@@ -109,29 +109,25 @@ const renderSideBar = () => {
 
   projectsTopActionsContainer.appendChild(DOMPlusCircleSVG2);
 
-  const createdCategories = allCategories.filter(
-    (category) => category !== inboxCategory,
-  );
-
-  listenForInboxCategory(sideBarContainer, inboxCategory, createdCategories);
+  listenForInboxCategory(sideBarContainer, inboxCategory);
 
   return { sideBarContainer, topContainer, projects, DOMSideBarSVG };
 };
 
-const listenForInboxCategory = (
-  sideBarContainer,
-  inboxCategory,
-  createdCategories,
-) => {
+const listenForInboxCategory = (sideBarContainer, inboxCategory) => {
   const inboxTab = sideBarContainer.querySelector(".project-tab");
   const DOMCount = inboxTab.querySelector(".count");
   const projects = sideBarContainer.querySelector(".projects");
 
-  const switchCategory = (e, DOMCount, projects, createdCategories) => {
+  const switchCategory = (e, DOMCount, projects, inboxCategory) => {
     if (
       e.currentTarget.dataset.id === mainContentElements.projectName.dataset.id
     )
       return;
+
+    const createdCategories = categoryManager
+      .showAllCategories()
+      .filter((category) => category !== inboxCategory);
 
     const projectListTabDivs = projects.querySelectorAll(
       ".projects-list .project-tab > div",
@@ -148,14 +144,17 @@ const listenForInboxCategory = (
       div.classList.remove("selected");
     });
 
-    createdCategories.forEach((category) => category.unselect());
+    inboxCategory.select();
+    createdCategories.forEach((category) => {
+      category.unselect();
+    });
   };
 
   inboxTab.removeEventListener("click", (e) =>
-    switchCategory(e, DOMCount, projects, createdCategories),
+    switchCategory(e, DOMCount, projects, inboxCategory),
   );
   inboxTab.addEventListener("click", (e) =>
-    switchCategory(e, DOMCount, projects, createdCategories),
+    switchCategory(e, DOMCount, projects, inboxCategory),
   );
 };
 
