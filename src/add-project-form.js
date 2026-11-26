@@ -51,6 +51,8 @@ const createForm = (actionButtonAdd, DOMProjects) => {
 
   DOMProjects.insertBefore(formAddProject, DOMProjects.lastChild);
 
+  inputTextForm.focus();
+
   listenForCheck(formAddProject, actionButtonAdd, DOMProjects);
   listenForClose(formAddProject, buttonClose, actionButtonAdd);
 };
