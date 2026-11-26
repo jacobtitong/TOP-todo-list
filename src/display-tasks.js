@@ -6,7 +6,6 @@ import hashSVG from "./assets/icons/hash.svg";
 import { default as categoryManager } from "./category-manager.js";
 import { format, parseISO } from "date-fns";
 import { default as filter } from "./filterTasks.js";
-import { default as displayProjects } from "./display-projects.js";
 
 // CREATING ELEMENTS
 const displayTasks = () => {
