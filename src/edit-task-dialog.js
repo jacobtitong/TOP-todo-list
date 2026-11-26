@@ -8,12 +8,17 @@ import { default as renderPriorityFlags } from "./priority.js";
 import { default as renderCategoryHash } from "./category-input.js";
 import { default as categoryManager } from "./category-manager.js";
 import { default as mainContentElements } from "./main-content.js";
+import { globalScopeTasks } from "./library.js";
 
 let dialog;
 
 const allowEditTask = (DOMTask) => {
-  function showDialog() {
-    dialog = renderDialog();
+  const currentTask = globalScopeTasks.library.find(
+    (task) => task.id == DOMTask.dataset.id,
+  );
+
+  function showDialog(task) {
+    dialog = renderDialog(task);
     dialog.showModal();
     activateDateTimePicker();
     activatePrioritySelect();
@@ -29,11 +34,11 @@ const allowEditTask = (DOMTask) => {
     });
   }
 
-  DOMTask.removeEventListener("click", (e) => showDialog());
-  DOMTask.addEventListener("click", (e) => showDialog());
+  DOMTask.removeEventListener("click", (e) => showDialog(currentTask));
+  DOMTask.addEventListener("click", (e) => showDialog(currentTask));
 };
 
-const renderDialog = () => {
+const renderDialog = (task) => {
   // .contents
   const divContents = createDOM("div", { class: "contents edit" });
 
@@ -41,11 +46,11 @@ const renderDialog = () => {
     if (!divContents.classList.contains("edit")) return;
     divContents.textContent = "";
     divContents.classList.remove("edit");
-    const DOMTitle = createDOM("div", { id: "task-name" }, "task");
+    const DOMTitle = createDOM("div", { id: "task-name" }, task.title);
     const DOMDescription = createDOM(
       "div",
       { id: "description" },
-      "description",
+      task.description,
     );
     divContents.appendChild(DOMTitle);
     divContents.appendChild(DOMDescription);
@@ -64,6 +69,7 @@ const renderDialog = () => {
       id: "task-name",
       name: "title",
       required: "",
+      value: task.title,
     });
     const labelTaskName = createDOM(
       "label",
@@ -75,6 +81,7 @@ const renderDialog = () => {
       placeholder: "Description",
       id: "description",
       name: "description",
+      value: task.description,
     });
     const labelDescription = createDOM(
       "label",
