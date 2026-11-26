@@ -6,6 +6,7 @@ import hashSVG from "./assets/icons/hash.svg";
 import { default as categoryManager } from "./category-manager.js";
 import { format, parseISO } from "date-fns";
 import { default as filter } from "./filterTasks.js";
+import { allowEditTask } from "./edit-task-dialog.js";
 
 // CREATING ELEMENTS
 const displayTasks = () => {
@@ -88,7 +89,7 @@ const displayTasks = () => {
     );
     const DOMTask = createDOM(
       "div",
-      { class: "task" },
+      { class: "task", "data-id": task.id },
       checkboxLabel,
       taskDetails,
       projectLabel,
@@ -127,6 +128,8 @@ const displayTasks = () => {
     // Listen for checkbox
     checkbox.removeEventListener("change", toggleCheckbox);
     checkbox.addEventListener("change", toggleCheckbox);
+
+    allowEditTask(DOMTask);
   });
 };
 

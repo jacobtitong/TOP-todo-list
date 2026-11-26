@@ -1,0 +1,91 @@
+::backdrop {
+  background-color: var(--primary-bg);
+  opacity: 0.5;
+}
+
+dialog {
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--divider-clr);
+  background-color: var(--primary-bg);
+  width: 50vw;
+  min-width: 600px;
+  max-width: 750px;
+  height: max-content;
+  overflow: visible;
+
+  .edit-task-container {
+    .contents.edit,
+    .contents {
+      border-radius: 16px;
+      border: 1px solid var(--divider-clr);
+      background-color: var(--secondary-bg);
+      padding: 12px;
+      gap: 8px;
+      display: flex;
+      flex-direction: column;
+
+      input {
+        background: none;
+        border: none;
+        outline: 0;
+        width: 100%;
+      }
+
+      #task-name::placeholder,
+      #task-name {
+        color: var(--primary-txt);
+        font-family: "inter-medium";
+        font-size: 1.25rem;
+      }
+
+      #description::placeholder,
+      #description {
+        color: var(--secondary-txt);
+      }
+    }
+
+    .contents {
+      border: none;
+      background: none;
+    }
+
+    .additional-contents {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+
+      > div:nth-of-type(1) {
+        display: flex;
+        gap: 10px;
+      }
+
+      div.actions {
+        display: flex;
+        gap: 10px;
+        button {
+          cursor: pointer;
+        }
+
+        button:nth-of-type(1) {
+          font-family: "inter-regular";
+          font-size: 1rem;
+          border-radius: 0.5em;
+          color: var(--secondary-txt);
+          border: none;
+          background: none;
+        }
+
+        button:nth-of-type(2) {
+          padding: 0 0.75em;
+          font-family: "inter-medium";
+          font-size: 1rem;
+          border-radius: 0.5em;
+          background-color: var(--red);
+          color: var(--primary-txt);
+          border: none;
+        }
+      }
+    }
+  }
+}

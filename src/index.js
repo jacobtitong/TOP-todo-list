@@ -1,6 +1,7 @@
 import "./reset.css";
 import "./style-guide.css";
 import "./add-task-dialog.css";
+import "./edit-task-dialog.css";
 import "./select.css";
 import "./priority.css";
 import "./priority.js";
