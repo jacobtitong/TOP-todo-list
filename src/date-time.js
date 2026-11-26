@@ -26,6 +26,7 @@ const dateTimeManager = (() => {
     const value = dateTimePicker.querySelector(".value");
     value.classList.remove("defined");
     if (chosenDate) {
+      console.log("defined");
       value.classList.add("defined");
       value.textContent = format(chosenDate, "MMM d, yyyy | K:mm a");
       return;
@@ -292,7 +293,7 @@ const dateTimeManager = (() => {
   };
 })();
 
-const activateDateTimePicker = () => {
+const activateDateTimePicker = (date) => {
   const form = document.querySelector("form");
 
   if (form) {
@@ -307,9 +308,23 @@ const activateDateTimePicker = () => {
       'label[for="due-date"] input',
     );
 
+    dateTimeManager.clearDate();
+
     let currentDate;
     const dateTime = dateTimePicker.querySelector(".date-time");
     const dateTimePickerValue = dateTimePicker.querySelector(".value");
+
+    if (date) {
+      currentDate = date;
+      dateTimeManager.updateChosenDate(
+        currentDate,
+        dateTimeInput,
+        getDate(currentDate),
+      );
+      dateTimeManager.updateChosenTime(currentDate, dateTimeInput);
+      dateTimeManager.displayChosenDate(dateTimePicker);
+    }
+
     const monthLeftArrow = dateTimePicker.querySelector(
       ".month-tab .arrows.prev-month",
     );

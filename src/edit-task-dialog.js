@@ -9,6 +9,7 @@ import { default as renderCategoryHash } from "./category-input.js";
 import { default as categoryManager } from "./category-manager.js";
 import { default as mainContentElements } from "./main-content.js";
 import { globalScopeTasks } from "./library.js";
+import { parseISO } from "date-fns";
 
 let dialog;
 
@@ -19,9 +20,10 @@ const allowEditTask = (DOMTask) => {
   const DOMcheckbox = DOMTask.querySelector("label.checkbox-label");
 
   function showDialog(task) {
+    console.log(task.dueDate, task.dueDate ? "meron" : "wala");
     dialog = renderDialog(task);
     dialog.showModal();
-    activateDateTimePicker();
+    activateDateTimePicker(task.dueDate ? parseISO(task.dueDate) : undefined);
     activatePrioritySelect();
     activateCategorySelect();
     // allowAddTaskButton();

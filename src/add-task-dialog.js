@@ -17,7 +17,7 @@ const allowAddTask = (sideBarContainer) => {
   function showDialog() {
     dialog = renderDialog();
     dialog.showModal();
-    activateDateTimePicker();
+    activateDateTimePicker(undefined);
     activatePrioritySelect();
     activateCategorySelect();
     allowAddTaskButton();
