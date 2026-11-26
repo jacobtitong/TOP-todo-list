@@ -16,6 +16,7 @@ const allowEditTask = (DOMTask) => {
   const currentTask = globalScopeTasks.library.find(
     (task) => task.id == DOMTask.dataset.id,
   );
+  const DOMcheckbox = DOMTask.querySelector("label.checkbox-label");
 
   function showDialog(task) {
     dialog = renderDialog(task);
@@ -34,8 +35,17 @@ const allowEditTask = (DOMTask) => {
     });
   }
 
-  DOMTask.removeEventListener("click", (e) => showDialog(currentTask));
-  DOMTask.addEventListener("click", (e) => showDialog(currentTask));
+  DOMTask.removeEventListener("click", (e) => {
+    const isClickedInside = DOMcheckbox.contains(e.target);
+    if (isClickedInside) return;
+    if (e.target === DOMcheckbox) return;
+    showDialog(currentTask);
+  });
+  DOMTask.addEventListener("click", (e) => {
+    const isClickedInside = DOMcheckbox.contains(e.target);
+    if (isClickedInside) return;
+    showDialog(currentTask);
+  });
 };
 
 const renderDialog = (task) => {
@@ -185,8 +195,15 @@ const renderDialog = (task) => {
     createDOM("option", { value: "1" }, "Priority 1"),
     createDOM("option", { value: "2" }, "Priority 2"),
     createDOM("option", { value: "3" }, "Priority 3"),
-    createDOM("option", { value: "4", selected: "" }, "Priority 4"),
+    createDOM("option", { value: "4" }, "Priority 4"),
   ];
+
+  const currentPriority = priorityOptions.find(
+    (option) => option.value == task.priority,
+  );
+
+  currentPriority.setAttribute("selected", "");
+
   const selectPriority = createDOM(
     "select",
     { name: "priority", tabindex: "0" },
