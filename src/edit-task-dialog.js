@@ -20,7 +20,6 @@ const allowEditTask = (DOMTask) => {
   const DOMcheckbox = DOMTask.querySelector("label.checkbox-label");
 
   function showDialog(task) {
-    console.log(task.dueDate, task.dueDate ? "meron" : "wala");
     dialog = renderDialog(task);
     dialog.showModal();
     activateDateTimePicker(task.dueDate ? parseISO(task.dueDate) : undefined);
@@ -55,9 +54,16 @@ const renderDialog = (task) => {
   const divContents = createDOM("div", { class: "contents" });
 
   function previewContents(initial) {
+    if (!divContents.querySelector("label input#task-name").value) return;
     if (!divContents.classList.contains("edit")) return;
     divContents.classList.remove("edit");
-    if (!initial) return;
+    if (!initial) {
+      divContents.querySelector("div.task-name").textContent =
+        divContents.querySelector("label input#task-name").value;
+      divContents.querySelector("div.description").textContent =
+        divContents.querySelector("label input#description").value;
+      return;
+    }
     const DOMTitle = createDOM("div", { class: "task-name" }, task.title);
     const DOMDescription = createDOM(
       "div",
@@ -75,6 +81,7 @@ const renderDialog = (task) => {
     if (divContents.classList.contains("edit")) return;
     divContents.classList.add("edit");
     if (!initial) return;
+
     const inputTaskName = createDOM("input", {
       type: "text",
       placeholder: "Task name",
