@@ -45,9 +45,14 @@ dialog {
       }
     }
 
-    .contents {
+    .contents:not(.edit) {
       border: none;
       background: none;
+
+      #task-name,
+      #description {
+        cursor: pointer;
+      }
     }
 
     .additional-contents {
