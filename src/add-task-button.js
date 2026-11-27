@@ -6,7 +6,7 @@ import { default as displayTasks } from "./display-tasks.js";
 
 const increaseTaskCount = (chosenCategory) => {
   const DOMAllProjects = document.querySelectorAll(".project-tab");
-  console.log(DOMAllProjects);
+
   const chosenProject = [...DOMAllProjects].filter(
     (project) => project.dataset.id === chosenCategory.id,
   )[0];

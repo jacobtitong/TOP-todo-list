@@ -26,6 +26,7 @@ const taskManager = (() => {
     for (const key in taskDetails) {
       task[key] = taskDetails[key];
     }
+    return task;
   };
 
   return { createTask, deleteTask, insertTask, toggleTask, editTask };

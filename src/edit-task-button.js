@@ -3,16 +3,46 @@ import { default as categoryManager } from "./category-manager.js";
 import { default as taskManager } from "./task-manager.js";
 import { default as mainContentElements } from "./main-content.js";
 import { default as displayTasks } from "./display-tasks.js";
-import { globalScopeTasks } from "./library.js";
+
+const changeTaskCountDOM = () => {
+  const allCategories = categoryManager.showAllCategories();
+  const DOMAllProjects = document.querySelectorAll(".project-tab");
+
+  DOMAllProjects.forEach((project, i) => {
+    const DOMCount = project.querySelector(".count");
+    DOMCount.textContent = `${allCategories[i].count}`;
+  });
+};
 
 const storeTaskData = (formData, selectedTask) => {
-  const currentTask = globalScopeTasks.library.find(
-    (task) => task.id === selectedTask.id,
-  );
+  console.log(selectedTask);
+  const oldTask = {};
+  for (const key in formData) {
+    oldTask[key] = selectedTask[key];
+  }
 
-  taskManager.editTask(formData, currentTask);
+  const previousCategoryID = oldTask.category;
 
-  //   increaseTaskCount(chosenCategory);
+  const newTask = taskManager.editTask(formData, selectedTask);
+
+  if (formData.category !== oldTask.category) {
+    const allCategories = categoryManager.showAllCategories();
+    const previousCategory = allCategories.find(
+      (category) => category.id === previousCategoryID,
+    );
+    const newCategory = allCategories.find(
+      (category) => category.id === newTask.category,
+    );
+    taskManager.deleteTask({
+      library: previousCategory.tasksList,
+      task: newTask,
+    });
+    previousCategory.decreaseCount();
+    taskManager.insertTask({ library: newCategory.tasksList, task: newTask });
+    newCategory.increaseCount();
+  }
+
+  changeTaskCountDOM();
 };
 
 export default function allowEditTaskButton(selectedTask) {

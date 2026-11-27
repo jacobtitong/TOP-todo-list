@@ -36,7 +36,7 @@ const dateTimeManager = (() => {
 
   const clearDate = (dateTimeInput) => {
     chosenDate = undefined;
-    dateTimeInput.value = chosenDate;
+    dateTimeInput.value = "";
   };
 
   const deactivateDateTimePicker = (dateTimePicker) => {
