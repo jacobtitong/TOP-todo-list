@@ -1,5 +1,5 @@
 import { default as allowAddTaskButton } from "./add-task-button.js";
-import { default as allowCancelAddTaskButton } from "./cancel-add-task-button.js";
+import { default as allowCancelEditTaskButton } from "./cancel-edit-task-button.js";
 import { default as createDOM } from "./createDOM.js";
 import { default as activateDateTimePicker } from "./date-time.js";
 import { default as activatePrioritySelect } from "./priority-select.js";
@@ -26,7 +26,7 @@ const allowEditTask = (DOMTask) => {
     activatePrioritySelect();
     activateCategorySelect();
     // allowAddTaskButton();
-    // allowCancelAddTaskButton();
+    allowCancelEditTaskButton();
 
     ["click", "cancel", "keyup"].forEach((event) => {
       dialog.addEventListener(event, (e) => {
