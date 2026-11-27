@@ -34,8 +34,9 @@ const dateTimeManager = (() => {
     value.textContent = "No Date";
   };
 
-  const clearDate = () => {
+  const clearDate = (dateTimeInput) => {
     chosenDate = undefined;
+    dateTimeInput.value = chosenDate;
   };
 
   const deactivateDateTimePicker = (dateTimePicker) => {
@@ -308,7 +309,7 @@ const activateDateTimePicker = (date) => {
       'label[for="due-date"] input',
     );
 
-    dateTimeManager.clearDate();
+    dateTimeManager.clearDate(dateTimeInput);
 
     let currentDate;
     const dateTime = dateTimePicker.querySelector(".date-time");
@@ -423,7 +424,7 @@ const activateDateTimePicker = (date) => {
 
     clearButton.addEventListener("click", (event) => {
       dateTimeManager.deactivateDateTimePicker(dateTimePicker);
-      dateTimeManager.clearDate();
+      dateTimeManager.clearDate(dateTimeInput);
       dateTimeManager.displayChosenDate(dateTimePicker);
     });
 

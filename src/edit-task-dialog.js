@@ -1,4 +1,4 @@
-import { default as allowAddTaskButton } from "./add-task-button.js";
+import { default as allowEditTaskButton } from "./edit-task-button.js";
 import { default as allowCancelEditTaskButton } from "./cancel-edit-task-button.js";
 import { default as createDOM } from "./createDOM.js";
 import { default as activateDateTimePicker } from "./date-time.js";
@@ -25,7 +25,7 @@ const allowEditTask = (DOMTask) => {
     activateDateTimePicker(task.dueDate ? parseISO(task.dueDate) : undefined);
     activatePrioritySelect();
     activateCategorySelect();
-    // allowAddTaskButton();
+    allowEditTaskButton(task);
     allowCancelEditTaskButton();
 
     ["click", "cancel", "keyup"].forEach((event) => {
@@ -355,8 +355,8 @@ const renderDialog = (task) => {
   );
   const btnAddTask = createDOM(
     "button",
-    { class: "add-task-button" },
-    "Add Task",
+    { class: "edit-task-button" },
+    "Edit Task",
   );
   const divActions = createDOM(
     "div",

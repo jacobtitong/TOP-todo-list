@@ -24,7 +24,7 @@ const taskManager = (() => {
 
   const editTask = (taskDetails, task) => {
     for (const key in taskDetails) {
-      task.key = taskDetails[key];
+      task[key] = taskDetails[key];
     }
   };
 
