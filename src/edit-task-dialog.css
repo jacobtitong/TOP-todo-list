@@ -32,15 +32,15 @@ dialog {
         width: 100%;
       }
 
-      #task-name::placeholder,
-      #task-name {
+      .task-name::placeholder,
+      .task-name {
         color: var(--primary-txt);
         font-family: "inter-medium";
         font-size: 1.25rem;
       }
 
-      #description::placeholder,
-      #description {
+      .description::placeholder,
+      .description {
         color: var(--secondary-txt);
       }
     }
@@ -49,9 +49,27 @@ dialog {
       border: none;
       background: none;
 
-      #task-name,
-      #description {
+      div.task-name,
+      div.description {
+        display: block;
         cursor: pointer;
+      }
+
+      label:has(input#task-name),
+      label:has(input#description) {
+        display: none;
+      }
+    }
+
+    .contents.edit {
+      label:has(input#task-name),
+      label:has(input#description) {
+        display: inline-block;
+      }
+
+      div.task-name,
+      div.description {
+        display: none;
       }
     }
 

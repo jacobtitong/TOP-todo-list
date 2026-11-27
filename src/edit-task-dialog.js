@@ -52,33 +52,34 @@ const allowEditTask = (DOMTask) => {
 
 const renderDialog = (task) => {
   // .contents
-  const divContents = createDOM("div", { class: "contents edit" });
+  const divContents = createDOM("div", { class: "contents" });
 
-  function previewContents() {
+  function previewContents(initial) {
     if (!divContents.classList.contains("edit")) return;
-    divContents.textContent = "";
     divContents.classList.remove("edit");
-    const DOMTitle = createDOM("div", { id: "task-name" }, task.title);
+    if (!initial) return;
+    const DOMTitle = createDOM("div", { class: "task-name" }, task.title);
     const DOMDescription = createDOM(
       "div",
-      { id: "description" },
+      { class: "description" },
       task.description,
     );
     divContents.appendChild(DOMTitle);
     divContents.appendChild(DOMDescription);
   }
 
-  previewContents();
+  editContents(true);
+  previewContents(true);
 
-  function editContents() {
+  function editContents(initial) {
     if (divContents.classList.contains("edit")) return;
-    divContents.textContent = "";
     divContents.classList.add("edit");
-
+    if (!initial) return;
     const inputTaskName = createDOM("input", {
       type: "text",
       placeholder: "Task name",
       id: "task-name",
+      class: "task-name",
       name: "title",
       required: "",
       value: task.title,
@@ -92,6 +93,7 @@ const renderDialog = (task) => {
       type: "text",
       placeholder: "Description",
       id: "description",
+      class: "description",
       name: "description",
       value: task.description,
     });
@@ -384,9 +386,9 @@ const renderDialog = (task) => {
     function validateToEdit(e) {
       const isClickedInside = divContents.contains(e.target);
       if (isClickedInside) {
-        editContents();
+        editContents(false);
       } else {
-        previewContents();
+        previewContents(false);
       }
     }
     dialog.removeEventListener("click", (e) => validateToEdit(e));
