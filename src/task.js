@@ -16,9 +16,23 @@ class Task {
     this.#title = title;
     this.#description = description;
     this.#dueDate = dueDate;
-    this.#day = dueDate ? format(parseISO(dueDate), "yyyy-MM-dd") : undefined;
+    this.#day = dueDate ? format(parseISO(dueDate), "yyyy-MM-dd") : null;
     this.#priority = priority;
     this.#category = category;
+  }
+
+  get data() {
+    return {
+      title: this.#title,
+      description: this.#description,
+      dueDate: this.#dueDate,
+      day: this.#day,
+      priority: this.#priority,
+      category: this.#category,
+      complete: this.#complete,
+      id: this.#id,
+      checklist: this.#checklist.data,
+    };
   }
 
   get title() {

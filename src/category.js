@@ -13,6 +13,17 @@ class Category {
     this.#color = color;
   }
 
+  get data() {
+    return {
+      name: this.#name,
+      color: this.#color,
+      id: this.#id,
+      tasksList: this.#tasksList.data,
+      count: this.#count,
+      selection: this.#selection,
+    };
+  }
+
   get name() {
     return this.#name;
   }

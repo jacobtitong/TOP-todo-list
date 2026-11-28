@@ -8,6 +8,12 @@ class Library {
   set library(newLibrary) {
     this.#inventory = newLibrary;
   }
+
+  get data() {
+    return {
+      inventory: this.#inventory.map((obj) => obj.data),
+    };
+  }
 }
 
 const canAddItems = {

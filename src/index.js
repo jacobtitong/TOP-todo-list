@@ -17,3 +17,6 @@ import { default as taskManager } from "./task-manager.js";
 import { default as categoryManager } from "./category-manager.js";
 
 displayTasks();
+
+globalThis.allCategories = globalScopeCategories;
+globalThis.allTasks = globalScopeTasks;
