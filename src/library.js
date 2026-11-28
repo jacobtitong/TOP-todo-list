@@ -6,9 +6,9 @@ class Library {
 
   constructor({ inventory = [] } = {}) {
     this.#inventory = inventory;
-    if (inventory) {
+    if (this.#inventory.length) {
       // If inventory already contains data.
-      populateInventory();
+      this.populateInventory();
     }
   }
 
@@ -29,6 +29,7 @@ class Library {
   populateInventory() {
     if ("name" in this.#inventory[0]) {
       // Since "name" exists in only categories, the inventory is assumed to be an array of category instances.
+
       this.#inventory = this.#inventory.map((obj) => new Category(obj));
     }
     // Nothing will be done for tasks, because they will be populated in each Category instance which would also populate globalScopeTasks.
@@ -64,4 +65,19 @@ Object.assign(Categories.prototype, canAddItems, canRemoveItems);
 let globalScopeCategories = new Categories();
 let globalScopeTasks = new Tasks();
 
-export { Tasks, Categories, globalScopeCategories, globalScopeTasks };
+const changeGlobalScopeCategories = (library) => {
+  globalScopeCategories = library;
+};
+
+const changeGlobalScopeTasks = (library) => {
+  globalScopeTasks = library;
+};
+
+export {
+  Tasks,
+  Categories,
+  globalScopeCategories,
+  globalScopeTasks,
+  changeGlobalScopeCategories,
+  changeGlobalScopeTasks,
+};

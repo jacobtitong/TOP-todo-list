@@ -3,6 +3,8 @@ import {
   Categories,
   globalScopeCategories,
   globalScopeTasks,
+  changeGlobalScopeCategories,
+  changeGlobalScopeTasks,
 } from "./library.js";
 
 function storageAvailable(type) {
@@ -24,28 +26,37 @@ function storageAvailable(type) {
   }
 }
 
-// At every page load, this will run:
-if (storageAvailable("localStorage")) {
-  // If there is local storage
-  if (localStorage.length == 0) {
-    // If local storage is empty, populate the storage.
-    localStorage.setItem(
-      "globalScopeCategories",
-      JSON.stringify(globalScopeCategories.data),
-    );
-    localStorage.setItem(
-      "globalScopeTasks",
-      JSON.stringify(globalScopeTasks.data),
-    );
-  } else {
-    // If local storage has items, replace variables with stored data.
-    globalScopeCategories = new Categories(
-      JSON.parse(localStorage.getItem("globalScopeCategories")),
-    );
-    globalScopeTasks = new Tasks(
-      JSON.parse(localStorage.getItem("globalScopeTasks")),
-    );
-  }
-}
+console.log(localStorage.length);
 
-export {};
+const checkLocalStorage = (() => {
+  // At every page load, this will run:
+  if (storageAvailable("localStorage")) {
+    // If there is local storage
+    const runLocalStorage = (() => {
+      if (localStorage.length == 0) {
+        // If local storage is empty, populate the storage.
+        localStorage.setItem(
+          "globalScopeCategories",
+          JSON.stringify(globalScopeCategories.data),
+        );
+        localStorage.setItem(
+          "globalScopeTasks",
+          JSON.stringify(globalScopeTasks.data),
+        );
+      } else {
+        // If local storage has items, replace variables with stored data.
+        console.log(JSON.parse(localStorage.getItem("globalScopeCategories")));
+        const categories = new Categories(
+          JSON.parse(localStorage.getItem("globalScopeCategories")),
+        );
+        console.log(JSON.parse(localStorage.getItem("globalScopeTasks")));
+        const tasks = new Tasks(
+          JSON.parse(localStorage.getItem("globalScopeTasks")),
+        );
+
+        changeGlobalScopeCategories(categories);
+        changeGlobalScopeTasks(tasks);
+      }
+    })();
+  }
+})();

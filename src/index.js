@@ -12,7 +12,7 @@ import "./date-time.css";
 import { default as displayTasks } from "./display-tasks.js";
 import "./show-side-bar.js";
 import { globalScopeTasks, globalScopeCategories } from "./library.js";
-import {} from "./localStorage.js";
+import "./localStorage.js";
 
 displayTasks();
 

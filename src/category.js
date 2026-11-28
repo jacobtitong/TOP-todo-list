@@ -24,9 +24,11 @@ class Category {
     this.#count = count;
     this.#selection = selection;
 
-    if (tasksList.library) {
+    console.log(this.#tasksList);
+
+    if ("inventory" in this.#tasksList) {
       // If tasks list already contains data, populate it with the data.
-      populateTasksList();
+      this.populateTasksList();
     }
   }
 
@@ -42,9 +44,10 @@ class Category {
   }
 
   populateTasksList() {
-    this.#tasksList.library = this.#tasksList.library.map(
+    this.#tasksList.inventory = this.#tasksList.inventory.map(
       (obj) => new Task(obj),
     );
+    this.#tasksList = new Tasks(this.#tasksList.inventory);
   }
 
   get name() {
