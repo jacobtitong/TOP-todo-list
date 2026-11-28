@@ -1,4 +1,3 @@
-import { Tasks } from "./library.js";
 import { format, parseISO } from "date-fns";
 
 class Task {
@@ -6,19 +5,29 @@ class Task {
   #description;
   #dueDate;
   #day;
-  #priority = 4;
-  #category = null;
-  #complete = false;
-  #id = crypto.randomUUID();
-  #checklist = new Tasks();
+  #priority;
+  #category;
+  #complete;
+  #id;
 
-  constructor({ title, description, dueDate, priority, category }) {
+  constructor({
+    title,
+    description,
+    dueDate = null,
+    day,
+    priority = 4,
+    category = null,
+    complete = false,
+    id = crypto.randomUUID(),
+  }) {
     this.#title = title;
     this.#description = description;
     this.#dueDate = dueDate;
     this.#day = dueDate ? format(parseISO(dueDate), "yyyy-MM-dd") : null;
     this.#priority = priority;
     this.#category = category;
+    this.#complete = complete;
+    this.#id = id;
   }
 
   get data() {
@@ -31,7 +40,6 @@ class Task {
       category: this.#category,
       complete: this.#complete,
       id: this.#id,
-      checklist: this.#checklist.data,
     };
   }
 
@@ -65,10 +73,6 @@ class Task {
 
   get id() {
     return this.#id;
-  }
-
-  get checklist() {
-    return this.#checklist;
   }
 
   set title(newTitle) {

@@ -9,12 +9,10 @@ import "./category.css";
 import "./category-input.js";
 import "./due-date.css";
 import "./date-time.css";
-import { default as renderMainContent } from "./main-content.js";
 import { default as displayTasks } from "./display-tasks.js";
 import "./show-side-bar.js";
 import { globalScopeTasks, globalScopeCategories } from "./library.js";
-import { default as taskManager } from "./task-manager.js";
-import { default as categoryManager } from "./category-manager.js";
+import {} from "./localStorage.js";
 
 displayTasks();
 
