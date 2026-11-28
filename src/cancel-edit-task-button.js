@@ -6,7 +6,6 @@ export default function allowCancelEditTask() {
   const cancelButton = form.querySelector(".cancel-button");
 
   function closeDialog(e) {
-    console.log("cancelled!");
     dialog.close();
     dialog.remove();
   }

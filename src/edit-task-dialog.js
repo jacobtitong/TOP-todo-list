@@ -10,6 +10,7 @@ import { default as categoryManager } from "./category-manager.js";
 import { default as mainContentElements } from "./main-content.js";
 import { globalScopeTasks } from "./library.js";
 import { parseISO } from "date-fns";
+import allowDeleteTaskButton from "./delete-task-button.js";
 
 let dialog;
 
@@ -27,6 +28,7 @@ const allowEditTask = (DOMTask) => {
     activateCategorySelect();
     allowEditTaskButton(task);
     allowCancelEditTaskButton();
+    allowDeleteTaskButton(task);
 
     ["click", "cancel", "keyup"].forEach((event) => {
       dialog.addEventListener(event, (e) => {
@@ -358,11 +360,17 @@ const renderDialog = (task) => {
     { class: "edit-task-button" },
     "Edit Task",
   );
+  const btnDelete = createDOM(
+    "button",
+    { class: "delete-button", type: "button" },
+    "X",
+  );
   const divActions = createDOM(
     "div",
     { class: "actions" },
     btnCancel,
     btnAddTask,
+    btnDelete,
   );
 
   // .additional-contents
